@@ -1,6 +1,5 @@
 import {useEffect, useState} from 'react';
 import ky from 'ky';
-import NavBar from "./NavBar.tsx";
 
 async function fetchMovieDetail(): Promise<any> {
     const data = await ky('/movieDetailData.json').json<any>();
@@ -25,7 +24,6 @@ export default function MovieDetail() {
 
     return (
         <>
-            <NavBar/>
             <div className="p-8 flex flex-col md:flex-row gap-6">
                 <img src={movie.poster} alt={movie.title} className="w-full md:w-1/3 h-auto rounded-lg shadow-md"/>
                 <div className="flex-1">

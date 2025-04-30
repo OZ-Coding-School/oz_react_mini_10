@@ -6,7 +6,6 @@ import {useEffect, useState} from "react";
 import 'swiper/css';
 // @ts-ignore
 import 'swiper/css/navigation';
-import NavBar from "./NavBar.tsx";
 import {fetchMovies} from "./MovieList.tsx";
 
 type Movie = {
@@ -25,7 +24,7 @@ export default function MovieSliderPage() {
 
     return (
         <>
-            <NavBar/>
+
             <div className="w-screen h-screen bg-white  text-black flex flex-col overflow-auto">
                 <h1 className="text-3xl font-bold text-center py-6">🎞 영화 슬라이드</h1>
 
