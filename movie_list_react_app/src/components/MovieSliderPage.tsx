@@ -1,0 +1,62 @@
+import {Swiper, SwiperSlide} from 'swiper/react';
+import {Navigation, Autoplay} from 'swiper/modules';
+import {useEffect, useState} from "react";
+
+// @ts-ignore
+import 'swiper/css';
+// @ts-ignore
+import 'swiper/css/navigation';
+import NavBar from "./NavBar.tsx";
+import {fetchMovies} from "./MovieList.tsx";
+
+type Movie = {
+    id: number;
+    title: string;
+    poster: string;
+    rating: number;
+};
+
+export default function MovieSliderPage() {
+    const [movieSlider, setMovieSlider] = useState<Movie[]>([]);
+
+    useEffect(() => {
+        fetchMovies().then(setMovieSlider);
+    }, []);
+
+    return (
+        <>
+            <NavBar/>
+            <div className="w-screen h-screen bg-white  text-black flex flex-col overflow-auto">
+                <h1 className="text-3xl font-bold text-center py-6">🎞 영화 슬라이드</h1>
+
+                <div className="flex-1 flex items-center">
+                    <Swiper
+                        modules={[Navigation, Autoplay]}
+                        spaceBetween={40}
+                        slidesPerView={1}
+                        navigation
+                        autoplay={{ delay: 3000, disableOnInteraction: false }}
+                        pagination={false}
+                        className="w-full h-full flex-1"
+                    >
+                        {movieSlider.map((movie) => (
+                            <SwiperSlide key={movie.id} className="h-full flex justify-center items-center px-4">
+                                <div className="flex flex-col justify-center items-center text-center">
+                                    <img
+                                        src={movie.poster}
+                                        alt={movie.title}
+                                        className="max-w-[90vw] max-h-[70vh] object-contain rounded-lg shadow-lg"
+                                    />
+                                    <div className="p-4">
+                                        <h3 className="text-2xl font-semibold mb-2">{movie.title}</h3>
+                                        <p className="text-yellow-500 text-lg font-bold">⭐ {movie.rating}</p>
+                                    </div>
+                                </div>
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                </div>
+            </div>
+        </>
+    );
+}
