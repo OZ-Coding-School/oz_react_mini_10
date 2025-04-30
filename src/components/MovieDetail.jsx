@@ -15,7 +15,7 @@ export default function MovieDetail() {
             {data.title}
           </h1>
           <div className="text-xl text-gray-600 mt-2 md:mt-0">
-            평점 : {data.vote_average}
+            평점 : {data.vote_average.toFixed(1)}
           </div>
         </div>
         <div className="text-sm text-gray-500">

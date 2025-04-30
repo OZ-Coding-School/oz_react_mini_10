@@ -1,5 +1,3 @@
-import { Outlet } from "react-router-dom";
-
 export default function NavBar() {
   return (
     <>
@@ -20,7 +18,6 @@ export default function NavBar() {
           </button>
         </div>
       </header>
-      <Outlet />
     </>
   );
 }
