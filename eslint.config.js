@@ -13,5 +13,10 @@ export default defineConfig([
     files: ["**/*.{js,mjs,cjs,jsx}"],
     languageOptions: { globals: globals.browser },
   },
+  {
+    rules: {
+      "react/prop-types": "off",
+    },
+  },
   pluginReact.configs.flat.recommended,
 ]);
