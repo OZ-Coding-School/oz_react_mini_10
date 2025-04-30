@@ -16,7 +16,6 @@ const MovieCard = ({ data }) => {
         >
           <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
             <div className="relative pb-[150%]">
-              {" "}
               {/* 포스터 비율 유지 */}
               <img
                 src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
