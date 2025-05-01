@@ -5,6 +5,9 @@ import NavBar from './components/NavBar.jsx'
 import { Routes, Route } from 'react-router-dom';
 import MovieDetail from './components/MovieDetail.jsx'
 import Home from './components/Home.jsx'
+import Layout from './components/Layout.jsx';
+import Join from './components/Join.jsx';
+import Login from './components/Login.jsx';
 
 
 
@@ -12,18 +15,24 @@ function App() {
   
 
   return (
-    <>
-        <header>
-          <NavBar/>
-        </header>
-        <Routes>
-          <Route path='/' element={<Home />}></Route>
-          <Route path='/details/:id' element={<MovieDetail /> }></Route>
-        </Routes>
+    
+      <>
+     
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="details/:id" element={<MovieDetail />} />
+              <Route path="join" element={<Join/>}/>
+              <Route path="login" element={<Login/>}/>
+
+            </Route>
+          </Routes>
+       
+      </>
+);
+
       
-      
-   </>
-  )
+  
 }
 
 export default App
