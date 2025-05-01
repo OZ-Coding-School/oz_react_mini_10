@@ -8,17 +8,20 @@ function App() {
   const [movies,setMovies] = useState(movieListData.results)
 
   return (
-    <div class="moviecard">
-    {movies.map((movie,id)=>(
-      <MovieCard
-      key={id}
-      title = {movie.title}
-      poster = {movie.poster_path}
-      rating = {movie.vote_average}
-      
-      />
-    ))}
-   </div>
+    <>
+    <Routes>
+        <div class="moviecard">
+        {movies.map((movie,id)=>(
+          <MovieCard
+          key={id}
+          title = {movie.title}
+          poster = {movie.poster_path}
+          rating = {movie.vote_average}
+          />
+        ))}
+      </div>
+    </Routes>
+   </>
   )
 }
 
