@@ -9,14 +9,15 @@ function App() {
 
   return (
     <>
-      <Layout />
-      
       <Routes>
-        <Route path="/" element={<MovieCard />} />
-        <Route path="/detail/:id" element={<MovieDetail/>} />
+        <Route path="/" element={<Layout />}>
+          <Route index element={<MovieCard />} />
+          <Route path="/detail/:id" element={<MovieDetail />} />
+          <Route path="*" element={<div className='text-center mt-72 font-bold text-3xl'>404 없는 페이지임.</div>}></Route>
+        </Route>
       </Routes>
-
     </>
+    
   )
 }
 
