@@ -19,10 +19,25 @@ type Movie = {
 
 export default function MovieSliderPage() {
     const [movieSlider, setMovieSlider] = useState<Movie[]>([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetchMovies().then(setMovieSlider);
+        fetchMovies()
+            .then(setMovieSlider)
+            .catch(console.error)
+            .finally(() => setLoading(false));
     }, []);
+
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center min-h-screen">
+                <div className="flex flex-col items-center space-y-4">
+                    <div className="w-16 h-16 border-4 border-blue-300 border-t-transparent rounded-full animate-spin" />
+                    <div className="text-lg text-gray-600">영화 슬라이드를 불러오는 중...</div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <>

@@ -51,12 +51,14 @@ export async function fetchMovies(): Promise<Movie[]> {
         })
         .json<ApiResponse>();
 
-    return data.results.map((movie) => ({
-        id: movie.id,
-        title: movie.title,
-        rating: movie.vote_average,
-        poster: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
-    }));
+    return data.results
+        .filter((movie) => !movie.adult)
+        .map((movie) => ({
+            id: movie.id,
+            title: movie.title,
+            rating: movie.vote_average,
+            poster: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+        }));
 }
 
 export async function fetchMovieDetail(movieId: string): Promise<MovieDetail> {
