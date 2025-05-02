@@ -1,10 +1,10 @@
 import NavBar from "./NavBar";
 import { Outlet } from "react-router-dom";
 
-export default function Layout() {
+export default function Layout({ handleLoad, page }) {
   return (
     <>
-      <NavBar />
+      <NavBar handleLoad={handleLoad} page={page} />
       <Outlet />
     </>
   );
