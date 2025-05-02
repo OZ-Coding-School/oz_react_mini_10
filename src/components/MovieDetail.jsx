@@ -1,7 +1,33 @@
-import movieDetailData from "../data/movieDetailData.json";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 export default function MovieDetail() {
-  const data = movieDetailData;
+  const params = useParams();
+  // console.log(params.id);
+  const [data, setData] = useState([]);
+  console.log(data);
+  const API = import.meta.env.VITE_API_TOKEN;
+
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${API}`,
+    },
+  };
+  const fetchData = () => {
+    fetch(
+      `https://api.themoviedb.org/3/movie/${params.id}?language=ko`,
+      options
+    )
+      .then((res) => res.json())
+      .then((res) => setData(res))
+      .catch((err) => console.error(err));
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <div className="flex flex-col md:flex-row gap-6 p-6">
       <img
@@ -15,11 +41,11 @@ export default function MovieDetail() {
             {data.title}
           </h1>
           <div className="text-xl text-gray-600 mt-2 md:mt-0">
-            평점 : {data.vote_average.toFixed(1)}
+            평점 : {data.vote_average}
           </div>
         </div>
         <div className="text-sm text-gray-500">
-          장르: {data.genres.map((el) => el.name).join(", ")}
+          장르: {data.genres?.map((el) => el.name).join(", ")}
         </div>
         <div className="text-base text-gray-700 leading-relaxed">
           {data.overview}
