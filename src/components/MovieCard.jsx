@@ -9,10 +9,10 @@ const baseUrl = "https://image.tmdb.org/t/p/w500";
 
 //직접렌더링하는게 아니고 App.jsx에서 받아서 렌더링 하기때문에
 //import movieListData.json 필요없음 , 단순 props 로 전달받을뿐
-export default function MovieCard({ poster_path, title, vote_average }) {
+export default function MovieCard({ id, poster_path, title, vote_average }) {
   const navigate = useNavigate();
   return (
-    <div className="movie-card" onClick={() => navigate("/details")}>
+    <div className="movie-card" onClick={() => navigate(`/details/${id}`)}>
       {/* 속성값에 자바스크립트 넣어주려면 중괄호, {baseUrl + {poster_path}} 이렇게는 안씀 에러남 */}
       {/* {poster_path} 이걸 또 하나의 객체로 인식함 에러. */}
       {/* alt= {title} 이건 접근성때문에 써줄뿐 안써도 무방 */}
