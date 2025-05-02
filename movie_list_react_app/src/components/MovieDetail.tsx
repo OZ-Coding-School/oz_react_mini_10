@@ -39,7 +39,7 @@ export default function MovieDetail() {
                 />
                 <div className="flex-1">
                     <h1 className="text-3xl font-bold mb-2">{movie.title}</h1>
-                    <p className="text-lg text-gray-800 font-semibold mb-3">평점: {movie.vote_average}</p>
+                    <p className="text-lg text-gray-800 font-semibold mb-3">평점: {movie.vote_average.toFixed(1)}</p>
                     <span className="pb-10 mb-10">장르</span>
                     <div className="flex flex-wrap gap-2 my-4 mb-4">
 

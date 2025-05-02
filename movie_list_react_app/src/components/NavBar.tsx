@@ -35,7 +35,6 @@ export default function NavBar() {
           {/* 링크 (데스크탑용) */}
           <div className="hidden lg:flex space-x-4">
             <Link to="/" className="hover:text-yellow-400">Home</Link>
-            <Link to="/details/1" className="hover:text-yellow-400">디테일</Link>
             <Link to="/slider" className="hover:text-yellow-400">슬라이더</Link>
             <button>로그인</button>
             <button>회원가입</button>
@@ -52,7 +51,6 @@ export default function NavBar() {
             />
             <div className="space-y-2">
               <Link to="/" className="block hover:text-yellow-400">Home</Link>
-              <Link to="/details/1" className="block hover:text-yellow-400">디테일</Link>
               <Link to="/slider" className="block hover:text-yellow-400">슬라이더</Link>
               <button>로그인</button>
               <br/>

@@ -18,7 +18,7 @@ export default function MovieCard({ id, title, poster, rating }: {
                 </div>
                 <div className="p-4">
                     <h3 className="text-xl font-semibold">{title}</h3>
-                    <p className="text-gray-700 font-bold">⭐ {rating}</p>
+                    <p className="text-gray-700 font-bold">⭐ {rating.toFixed(1)}</p>
                 </div>
             </div>
         </Link>
