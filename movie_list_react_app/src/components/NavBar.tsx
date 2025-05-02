@@ -37,6 +37,8 @@ export default function NavBar() {
             <Link to="/" className="hover:text-yellow-400">Home</Link>
             <Link to="/details/1" className="hover:text-yellow-400">디테일</Link>
             <Link to="/slider" className="hover:text-yellow-400">슬라이더</Link>
+            <button>로그인</button>
+            <button>회원가입</button>
           </div>
         </div>
 
@@ -52,6 +54,9 @@ export default function NavBar() {
               <Link to="/" className="block hover:text-yellow-400">Home</Link>
               <Link to="/details/1" className="block hover:text-yellow-400">디테일</Link>
               <Link to="/slider" className="block hover:text-yellow-400">슬라이더</Link>
+              <button>로그인</button>
+              <br/>
+              <button>회원가입</button>
             </div>
           </div>
         )}
