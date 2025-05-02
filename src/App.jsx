@@ -22,11 +22,13 @@ function App() {
     };
 
     fetch(
-      "https://api.themoviedb.org/3/movie/popular?language=ko&page=3&region=ko",
+      "https://api.themoviedb.org/3/movie/popular?language=ko&page=1&region=ko",
       options
     )
       .then((res) => res.json())
-      .then((res) => setMovieData(res.results))
+      .then((res) => {
+        setMovieData(res.results);
+      })
       .catch((err) => console.error(err));
   };
   // 렌더링 후 1번만 영화 데이터 불러오기
