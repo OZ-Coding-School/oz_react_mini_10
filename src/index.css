@@ -1,0 +1,11 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #fff; /* 원하는 배경색 */
+  font-family: sans-serif;
+  color: #333;
+}
