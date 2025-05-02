@@ -17,7 +17,7 @@ function Home() {
     
           <main>
                 
-                  <div className="moviecard">
+                  <div className="flex flex-wrap ">
                   {movies.map((movie,id)=>(
                     <Link to ={`/details/${movie.id}`}>
                       <MovieCard

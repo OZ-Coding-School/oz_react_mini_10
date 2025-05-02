@@ -6,9 +6,9 @@ function NavBar() {
 
     return(
 
-        <div>
+        <div className="flex">
             <Link to = "/">
-                <h1>oz무비사이트</h1>
+                <h1 className="text-[pink]]">oz무비사이트</h1>
             </Link>
             <Link to ="/join">
                 <button>회원가입하기</button> 
@@ -16,7 +16,7 @@ function NavBar() {
             <Link to ="/login">
                 <button>로그인하기</button> 
             </Link>
-
+            <input/>
 
            
 
