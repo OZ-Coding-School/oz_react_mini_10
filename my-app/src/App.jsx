@@ -11,8 +11,7 @@ function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route path='/' element={<Main />}></Route>
-          <Route path='/detail' element={<MovieDetail />}></Route>
-          {/* <Route path='/detail/:id' element={<MovieDetail />}></Route> */}
+          <Route path='/detail/:id' element={<MovieDetail />}></Route>
           <Route path='*' element={<ErrorPage />}></Route>
         </Route>
       </Routes>

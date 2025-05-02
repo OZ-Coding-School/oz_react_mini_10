@@ -19,8 +19,16 @@ ol {
   padding: 15px;
   gap: 15px;
   justify-items: center;
+
+  a {
+    width: 100%;
+  }
 }
 
-.gray-border {
-  border: solid 1px gainsboro;
+.slide-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+  font-size: 2em;
 }
