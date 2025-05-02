@@ -1,0 +1,26 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+ul,
+li,
+ol {
+  list-style: none;
+}
+
+.list-container {
+  width: 100%;
+  max-width: 1000px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  margin: 0 auto;
+  padding: 15px;
+  gap: 15px;
+  justify-items: center;
+}
+
+.gray-border {
+  border: solid 1px gainsboro;
+}
