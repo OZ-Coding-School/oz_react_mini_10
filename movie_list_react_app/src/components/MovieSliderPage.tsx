@@ -6,7 +6,9 @@ import {useEffect, useState} from "react";
 import 'swiper/css';
 // @ts-ignore
 import 'swiper/css/navigation';
-import {fetchMovies} from "./MovieList.tsx";
+import {fetchMovies} from "../Data/MovieData.ts";
+import {Link} from "react-router-dom";
+
 
 type Movie = {
     id: number;
@@ -41,11 +43,13 @@ export default function MovieSliderPage() {
                         {movieSlider.map((movie) => (
                             <SwiperSlide key={movie.id} className="h-full flex justify-center items-center px-4">
                                 <div className="flex flex-col justify-center items-center text-center">
+                                    <Link to={`/details/${movie.id}`}>
                                     <img
                                         src={movie.poster}
                                         alt={movie.title}
                                         className="max-w-[90vw] max-h-[70vh] object-contain rounded-lg shadow-lg"
                                     />
+                                    </Link>
                                     <div className="p-4">
                                         <h3 className="text-2xl font-semibold mb-2">{movie.title}</h3>
                                         <p className="text-yellow-500 text-lg font-bold">⭐ {movie.rating}</p>
