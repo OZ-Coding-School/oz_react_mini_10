@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import SwiperMovieCard from "./SwiperMovieCard";
+import { radomPages } from "../functions/RandomPage";
 
 const Spiner = styled.div`
   width: 50px;
@@ -23,33 +25,45 @@ const Spiner = styled.div`
 
 export default function MovieCard({ movieData }) {
   const [isImageLoading, setisImageLoading] = useState(true);
+  const [swiperPages, setSwiperPages] = useState(null);
+  useEffect(() => {
+    setSwiperPages(radomPages(1));
+  }, []);
+
   return (
-    <ul className="flex justify-center flex-wrap gap-10 p-6 bg-gray-50">
-      {movieData.map((movie) => (
-        <li
-          key={movie.id}
-          className="w-[300px]  bg-white rounded-2xl shadow-lg "
-        >
-          <Link to={`detail/${movie.id}`} className="flex flex-col">
-            {isImageLoading ? <Spiner></Spiner> : null}
-            <img
-              onLoad={() => setisImageLoading(false)}
-              className="rounded-2xl w-full aspect-[2/3] object-cover"
-              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-              alt={movie.title}
-              style={{ display: isImageLoading ? "none" : " block" }}
-            />
-            <div className="p-4 space-y-2">
-              <h3 className="text-lg font-semibold text-gray-800">
-                {movie.title}
-              </h3>
-              <p className="text-s text-gray-600">
-                ⭐ 평점: {movie.vote_average.toFixed(1)}
-              </p>
-            </div>
-          </Link>
-        </li>
+    <>
+      {swiperPages?.map((swiperPage) => (
+        <SwiperMovieCard key={swiperPage} swiperPage={swiperPage} />
       ))}
-    </ul>
+      <ul className="flex justify-center flex-wrap gap-10 p-6 bg-gray-50">
+        {movieData
+          .filter((movie) => !movie.adult)
+          .map((filterMovie) => (
+            <li
+              key={filterMovie.id}
+              className="w-[300px]  bg-white rounded-2xl shadow-lg "
+            >
+              <Link to={`detail/${filterMovie.id}`} className="flex flex-col">
+                {isImageLoading ? <Spiner></Spiner> : null}
+                <img
+                  onLoad={() => setisImageLoading(false)}
+                  className="rounded-2xl w-full aspect-[2/3] object-cover"
+                  src={`https://image.tmdb.org/t/p/w500${filterMovie.poster_path}`}
+                  alt={filterMovie.title}
+                  style={{ display: isImageLoading ? "none" : " block" }}
+                />
+                <div className="p-4 space-y-2">
+                  <h3 className="text-lg font-semibold text-gray-800">
+                    {filterMovie.title}
+                  </h3>
+                  <p className="text-s text-gray-600">
+                    ⭐ 평점: {filterMovie.vote_average.toFixed(1)}
+                  </p>
+                </div>
+              </Link>
+            </li>
+          ))}
+      </ul>
+    </>
   );
 }

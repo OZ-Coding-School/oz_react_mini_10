@@ -11,19 +11,16 @@ function App() {
   const [page, setPage] = useState(1);
   const location = useLocation();
 
-  console.log(location);
-
-  // 함수 : API 데이터 fetch
   const handleLoad = async (page) => {
-    const data = await MovieLoad(page);
+    // Page 전달 후 추가로 영화 불러오기
+    const data = await MovieLoad(page); //  API 데이터 fetch 함수 실행
     if (page <= 500) {
-      setMovieData([...movieData, ...data.results]);
+      setMovieData([...movieData, ...data.results]); // 기존 데이터 + 불러온 데이터
     }
-    setPage((prev) => prev + 1);
+    setPage((prev) => prev + 1); // 페이지 + 1
   };
 
   // 렌더링 후 1번만 영화 데이터 불러오기
-
   useEffect(() => {
     handleLoad(page);
   }, []);
@@ -37,9 +34,18 @@ function App() {
         </Route>
       </Routes>
       {location.pathname === "/" && (
-        <button className="more-button " onClick={() => handleLoad(page)}>
-          더보기
-        </button>
+        <>
+          <button className="more-button" onClick={() => handleLoad(page)}>
+            더보기
+          </button>
+          <button
+            className="top-button"
+            onClick={() => window.scrollTo({ top: 0 })}
+          >
+            {" "}
+            TOP
+          </button>
+        </>
       )}
     </>
   );
