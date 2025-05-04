@@ -1,25 +1,25 @@
 export default function Skeleton() {
   return (
-    <div className="flex flex-col md:flex-row gap-6 p-6 animate-pulse">
-      {/* 이미지 영역 스켈레톤 */}
-      <div className="w-full md:w-[600px] aspect-[16/9] bg-gray-300 rounded-xl shadow-lg" />
+    <div className="relative w-full h-[600px] bg-gray-900 overflow-hidden">
+      {/* 스켈레톤 배경 */}
+      <div className="w-full h-full bg-gray-700 animate-pulse object-cover" />
 
-      {/* 텍스트 영역 스켈레톤 */}
-      <div className="flex flex-col gap-4 border border-gray-200 p-6 rounded-xl shadow-md bg-white w-full">
-        {/* 제목 & 평점 */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div className="h-8 md:h-10 w-3/4 bg-gray-300 rounded" />
-          <div className="h-6 w-24 bg-gray-300 rounded" />
-        </div>
+      {/* 오버레이 */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent" />
 
-        {/* 장르 */}
-        <div className="h-4 w-1/2 bg-gray-200 rounded" />
-
-        {/* 개요 */}
+      {/* 콘텐츠 스켈레톤 */}
+      <div className="absolute bottom-10 left-6 md:left-12 max-w-2xl space-y-6">
+        <div className="h-10 md:h-14 bg-gray-600 rounded w-3/4 animate-pulse"></div>
+        <div className="h-5 bg-gray-600 rounded w-1/3 animate-pulse"></div>
+        <div className="h-4 bg-gray-600 rounded w-1/2 animate-pulse"></div>
         <div className="space-y-2">
-          <div className="h-4 w-full bg-gray-200 rounded" />
-          <div className="h-4 w-[90%] bg-gray-200 rounded" />
-          <div className="h-4 w-[80%] bg-gray-200 rounded" />
+          <div className="h-4 bg-gray-600 rounded w-full animate-pulse"></div>
+          <div className="h-4 bg-gray-600 rounded w-5/6 animate-pulse"></div>
+          <div className="h-4 bg-gray-600 rounded w-2/3 animate-pulse"></div>
+        </div>
+        <div className="flex gap-4 mt-4">
+          <div className="h-10 w-24 bg-gray-600 rounded animate-pulse"></div>
+          <div className="h-10 w-28 bg-gray-600 rounded animate-pulse"></div>
         </div>
       </div>
     </div>
