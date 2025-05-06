@@ -1,4 +1,4 @@
-import { baseUrl } from "@constants/baseUrl";
+import { BASE_URL } from "@constants/baseUrl";
 import { cn } from "@utils/cn";
 import { useState } from "react";
 import { Link } from "react-router";
@@ -24,7 +24,7 @@ const MovieCard = ({ className, id, poster_path, title, vote_average }) => {
               "grayscale-0": isHover,
             },
           )}
-          src={`${baseUrl}${poster_path}`}
+          src={`${BASE_URL}${poster_path}`}
         />
         <div
           className={cn(
