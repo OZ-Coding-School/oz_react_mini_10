@@ -3,7 +3,13 @@ import { cn } from "@utils/cn";
 import { useState } from "react";
 import { Link } from "react-router";
 
-const MovieCard = ({ className, id, poster_path, title, vote_average }) => {
+const MovieCard = ({
+  className,
+  id,
+  poster_path,
+  title,
+  vote_average: voteAverage,
+}) => {
   const [isHover, setIsHover] = useState(false);
 
   return (
@@ -36,7 +42,7 @@ const MovieCard = ({ className, id, poster_path, title, vote_average }) => {
         >
           <div className="rounded-xl bg-[rgba(0,0,0,0.4)] p-4 backdrop-blur-2xl">
             <div className="text-lg font-bold">{title}</div>
-            <div className="text-sm">평점 : {vote_average}</div>
+            <div className="text-sm">평점 : {voteAverage}</div>
           </div>
         </div>
       </div>

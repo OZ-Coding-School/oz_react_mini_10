@@ -1,6 +1,7 @@
+import { config } from "@api/common";
 import { useEffect, useState } from "react";
 
-export const useFetch = (fetchFunction, options) => {
+export const useFetch = ({ options, query }) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
@@ -9,7 +10,10 @@ export const useFetch = (fetchFunction, options) => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const response = await fetchFunction(options);
+        const response = options
+          ? await query(config, options)
+          : await query(config);
+
         const data = await response.json();
         setData(data);
       } catch (error) {
@@ -21,7 +25,7 @@ export const useFetch = (fetchFunction, options) => {
     };
 
     fetchData();
-  }, [fetchFunction, options]);
+  }, [query, options]);
 
   return { data, error, isLoading };
 };

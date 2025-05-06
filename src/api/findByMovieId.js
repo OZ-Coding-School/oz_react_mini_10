@@ -1,7 +1,7 @@
-export const findByMovieId = async (options, movieId) => {
+export const findByMovieId = async (config, options) => {
   const response = await fetch(
-    `https://api.themoviedb.org/3/movie/${movieId}?language=ko-KR`,
-    options,
+    `https://api.themoviedb.org/3/movie/${options?.movieId}?language=ko-KR`,
+    config,
   );
 
   if (!response.ok) {

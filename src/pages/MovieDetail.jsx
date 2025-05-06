@@ -1,24 +1,22 @@
 import { findByMovieId } from "@api/findByMovieId";
 import { BASE_URL, LARGE_BASE_URL } from "@constants/baseUrl";
 import { useFetch } from "@hooks/useFetch";
-import { useCallback } from "react";
+import { useMemo } from "react";
 import { useParams } from "react-router";
-
-const options = {
-  headers: {
-    accept: "application/json",
-    Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}`,
-  },
-  method: "GET",
-};
 
 const MovieDetail = () => {
   const params = useParams();
-  const fetchFunction = useCallback(
-    () => findByMovieId(options, params.id),
+
+  const options = useMemo(
+    () => ({
+      options: { movieId: params.id },
+      query: findByMovieId,
+    }),
     [params.id],
   );
-  const { data, error, isLoading } = useFetch(fetchFunction, options);
+
+  const { data, error, isLoading } = useFetch(options);
+
   const { backdrop_path, genres, overview, poster_path, title, vote_average } =
     data ?? {};
 

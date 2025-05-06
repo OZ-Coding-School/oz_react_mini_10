@@ -2,16 +2,12 @@ import { getPopularMovies } from "@api/getPopularMovies";
 import MovieCardsContainer from "@components/MovieCardsContainer";
 import { useFetch } from "@hooks/useFetch";
 
-const options = {
-  headers: {
-    accept: "application/json",
-    Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}`,
-  },
-  method: "GET",
-};
-
 function Main() {
-  const { data, error, isLoading } = useFetch(getPopularMovies, options);
+  const { data, error, isLoading } = useFetch({
+    query: getPopularMovies,
+  });
+
+  const allAgesMovieList = data?.results.filter((movie) => !movie.adult);
 
   if (error) {
     return <div>오류가 발생했습니다.</div>;
@@ -22,9 +18,7 @@ function Main() {
       <div>
         <h2 className="h2 relative left-1">영화 목록</h2>
         {!isLoading && data?.results && (
-          <MovieCardsContainer
-            movieListData={data.results.filter((movie) => !movie.adult)}
-          />
+          <MovieCardsContainer movieListData={allAgesMovieList} />
         )}
       </div>
     </div>

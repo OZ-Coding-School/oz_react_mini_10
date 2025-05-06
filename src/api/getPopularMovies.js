@@ -1,7 +1,7 @@
-export const getPopularMovies = async (options) => {
+export const getPopularMovies = async (config) => {
   const response = await fetch(
     "https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1",
-    options,
+    config,
   );
 
   if (!response.ok) {
