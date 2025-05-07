@@ -1,11 +1,21 @@
-import { useState } from 'react';
-import movieDetailData from "../moviedata/movieDetailData.json";
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import fetchMovieDetail from '../moviedata/movieDetailData';
 
-const MovieDetatil = () => {
-    const [movie, setMoive] = useState(movieDetailData)
+const MovieDetail = () => {
+    const [movie, setMoive] = useState(null)
     const {id} = useParams()
-    
+
+    useEffect(() => {
+      const getMovieDetail = async () => {
+        const data = await fetchMovieDetail(id)
+        setMoive(data);
+      };
+      getMovieDetail();
+    },[id])
+
+    if (!movie) return <div>로딩 중...</div>
+
     return(
       <div className='flex justify-center items-center max-w-200 max-h-200'>
         <div className="flex gap-8 p-8">
@@ -32,7 +42,7 @@ const MovieDetatil = () => {
           <div className="mb-4">
             <span className="text-gray-500">장르: </span>
             <span className="font-medium">
-              {movie.genres.map((genre) => genre.name).join(', ')}
+             {movie.genres ? movie.genres.map((genre) => genre.name).join(', ') : '정보 없음'}
             </span>
           </div>
       
@@ -44,4 +54,4 @@ const MovieDetatil = () => {
     );
   };
 
-  export default MovieDetatil;
+  export default MovieDetail;
