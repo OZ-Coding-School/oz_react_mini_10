@@ -1,29 +1,41 @@
-import movieDetailData from '../data/movieDetailData.json'
+// components/MovieDetail.jsx
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-export default function MovieDetail () {
-    const {backdrop_path, title, vote_average, genres, overview} = movieDetailData;
-    const baseURL = "https://image.tmdb.org/t/p/w500"; 
-    
-    return (
-        <div className="min-h-screen flex items-center justify-center bg-[#0b0c2a]">
-            <div className="flex flex-col md:flex-row justify-between items-center p-6 max-w-6xl w-full">
-                {/* 이미지 영역 */}
-                <img 
-                    src={baseURL + backdrop_path} 
-                    alt={title} 
-                    className="w-full md:w-1/2 h-auto object-cover rounded-lg shadow-lg" 
-                />
-                
-                {/* 텍스트 영역 */}
-                <div className="w-full md:w-1/2 md:ml-6 mt-4 md:mt-0">
-                    <h2 className="text-2xl font-semibold mb-2">{title}</h2>
-                    <p className="text-xl text-yellow-400 mb-4">⭐ {vote_average}</p>
-                    <p className="text-lg text-gray-300 mb-4">
-                        {genres.map((genre) => genre.name).join(', ')}
-                    </p>
-                    <p className="text-lg text-white">{overview}</p>
-                </div>
-            </div>
-        </div>
-    )
+export default function MovieDetail() {
+  const { id } = useParams(); // URL에서 영화 id 가져오기
+  const [movie, setMovie] = useState(null);
+
+  useEffect(() => {
+    const token = import.meta.env.VITE_TMDB_READ_TOKEN;
+
+    fetch(`https://api.themoviedb.org/3/movie/${id}?language=ko-KR`, {
+      headers: {
+        accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => setMovie(data))
+      .catch((err) => console.error("Error fetching movie details:", err));
+  }, [id]);
+
+  if (!movie) return <p>Loading...</p>;
+
+  return (
+    <div className="p-4 max-w-4xl mx-auto">
+      <img
+        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+        alt={movie.title}
+        className="w-full max-w-md mx-auto rounded-lg mb-4"
+      />
+      <h1 className="text-3xl font-bold mb-2">{movie.title}</h1>
+      <p className="text-yellow-400 mb-2">⭐ {movie.vote_average}</p>
+      <p className="mb-2 text-sm text-gray-300">{movie.release_date}</p>
+      <p>{movie.overview}</p>
+      <p className="mt-2 text-sm text-gray-400">
+        장르: {movie.genres.map((g) => g.name).join(", ")}
+      </p>
+    </div>
+  );
 }
