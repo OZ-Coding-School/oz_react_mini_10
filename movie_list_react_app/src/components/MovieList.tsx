@@ -1,40 +1,37 @@
 import { useEffect, useState } from 'react';
 import MovieCard from './MovieCard';
-import ky from "ky";
-
-type Movie = {
-    id: number;
-    title: string;
-    poster: string;
-    rating: number;
-};
-
-export async function fetchMovies(): Promise<Movie[]> {
-    const data = await ky('/movieListData.json').json<any>();
-    return data.results.map((movie: any) => ({
-        id: movie.id,
-        title: movie.title,
-        rating: movie.vote_average,
-        poster: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
-    }));
-}
+import {fetchMovies, Movie} from "../Data/MovieData.ts";
+import {LoadingPage} from "../Loading/LoadingPage.tsx";
 
 export default function MovieList() {
     const [movies, setMovies] = useState<Movie[]>([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetchMovies().then(setMovies);
+        fetchMovies()
+            .then(setMovies)
+            .catch(console.error)
+            .finally(() => setLoading(false));
     }, []);
 
-    return (
-        <>
+    if (loading) {
+        return <LoadingPage message="영화 데이터를 불러오는 중입니다..." />;
+    }
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
-                {movies.map((movie) => (
-                    <MovieCard key={movie.id} {...movie} />
-                ))}
+
+    if (movies.length === 0) {
+        return (
+            <div className="flex justify-center items-center min-h-screen">
+                <div className="text-lg text-gray-600">표시할 영화가 없습니다.</div>
             </div>
-        </>
+        );
+    }
 
+    return (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
+            {movies.map((movie) => (
+                <MovieCard key={movie.id} {...movie} />
+            ))}
+        </div>
     );
 }

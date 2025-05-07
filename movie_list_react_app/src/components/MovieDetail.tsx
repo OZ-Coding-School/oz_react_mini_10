@@ -1,40 +1,65 @@
-import {useEffect, useState} from 'react';
-import ky from 'ky';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
-async function fetchMovieDetail(): Promise<any> {
-    const data = await ky('/movieDetailData.json').json<any>();
-    return {
-        poster: `https://image.tmdb.org/t/p/w500${data.poster_path}`,
-        title: data.title,
-        vote_average: data.vote_average,
-        overview: data.overview,
-        genre: data.genres?.map((g: any) => g.name).join(', ')
-    };
-}
+import { fetchMovieDetail } from '../Data/MovieData';
+import type { MovieDetail } from '../Data/MovieData';
+import {TypeAnimation} from "react-type-animation";
+import {LoadingPage} from "../Loading/LoadingPage.tsx";
 
 export default function MovieDetail() {
-
-    const [movie, setMovie] = useState<any>(null);
+    const { movieId } = useParams();
+    const [movie, setMovie] = useState<MovieDetail | null>(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetchMovieDetail().then(setMovie);
-    }, []);
+        if (!movieId) return;
+        fetchMovieDetail(movieId)
+            .then(setMovie)
+            .finally(() => setLoading(false));
+    }, [movieId]);
 
-    if (!movie) return <div>로딩 중...</div>;
+    if (loading) {
+        return <LoadingPage message="영화 정보를 불러오는 중.."/>;
+    }
+    if (!movie) return <div>영화 정보를 불러올 수 없습니다.</div>;
 
     return (
-        <>
-            <div className="p-8 flex flex-col md:flex-row gap-6">
-                <img src={movie.poster} alt={movie.title} className="w-full md:w-1/3 h-auto rounded-lg shadow-md"/>
+        <div className="flex justify-center items-center min-h-screen px-4 py-16">
+            <div className="max-w-4xl w-full p-8 flex flex-col md:flex-row gap-10 items-start md:items-center">
+                <img
+                    src={movie.poster}
+                    alt={movie.title}
+                    className="w-full md:w-[400px] md:h-[600px] rounded-lg shadow-md object-cover"
+                />
                 <div className="flex-1">
-                    <h1 className="text-3xl font-bold mb-2 flex items-center justify-between">
-                        {movie.title}
-                        <span className="text-black text-xl ml-4"> {movie.vote_average}</span>
-                    </h1>
-                    <p className="text-sm text-gray-600 mb-4">{movie.genre}</p>
-                    <p className="text-gray-700 leading-relaxed">{movie.overview}</p>
+                    <h1 className="text-3xl font-bold mb-2">{movie.title}</h1>
+                    <p className="text-lg text-gray-800 font-semibold mb-3">평점: {movie.vote_average.toFixed(1)}</p>
+                    <span className="pb-10 mb-10">장르</span>
+                    <div className="flex flex-wrap gap-2 my-4 mb-4">
+
+                        {movie.genres.map((genre) => (
+                            <span
+                                key={genre}
+                                className="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm"
+                            >
+                                {genre}
+                            </span>
+                        ))}
+                    </div>
+                    <hr className="my-4" />
+                    <span>줄거리</span>
+                    <TypeAnimation
+                        sequence={[
+                            movie.overview || '줄거리 정보가 제공되지 않았습니다.',
+                            1000, // 대기 시간(ms)
+                        ]}
+                        speed={1}
+                        wrapper="p"
+                        className="text-gray-700 my-4 leading-relaxed"
+                        cursor={true}
+                    />
                 </div>
             </div>
-        </>
+        </div>
     );
 }
