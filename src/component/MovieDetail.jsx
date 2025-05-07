@@ -1,106 +1,95 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { results as allMovies } from '../data/movieListData.json';
-import genresList from '../data/genresList.json';
-import styled from 'styled-components';
+import { fetchMovieDetail } from '../api/tmdb';
 
-
-const MovieDetail = () => {
-    const { id } = useParams(); // URL에서 id 가져오기
-    const baseUrl = 'https://image.tmdb.org/t/p/w500';
+function MovieDetail() {
+    const { movieId } = useParams();
     const [movie, setMovie] = useState(null);
     const [loading, setLoading] = useState(true);
+    const baseUrl = 'https://image.tmdb.org/t/p/w1280';
 
+    // 영화 데이터를 가져오는 함수
     useEffect(() => {
-        setLoading(true);
-        // allMovies 배열에서 URL의 id와 일치하는 영화 찾기
-        const foundMovie = allMovies.find((m) => String(m.id) === String(id));
+        if (!movieId) return;
 
-        if (foundMovie) {
-            setMovie(foundMovie); // 찾은 영화 데이터로 상태 업데이트
-        } else {
-            console.warn(`Movie with ID ${id} not found.`);
-            setMovie(null);
-        }
+        setLoading(true); // 로딩 시작
 
-        setLoading(false);
+        fetchMovieDetail(movieId) // TMDB API 호출
+            .then((data) => {
+                setMovie(data); // 영화 데이터 저장
+                setLoading(false); // 로딩 종료
+            })
+            .catch(() => {
+                setMovie(null); // 오류 발생 시 영화 데이터 비워줌
+                setLoading(false); // 로딩 종료
+            });
+    }, [movieId]);
 
-    }, [id]); // id가 변경될 때마다 useEffect 실행
-
-    // 영화 데이터를 불러오는 중이거나 찾지 못한 경우 처리
     if (loading) {
-        return <div>로딩 중...</div>; // 로딩 중 표시
+        return <div>로딩 중...</div>; // 로딩 상태 표시
     }
 
     if (!movie) {
-        return <div>영화를 찾을 수 없습니다.</div>; // 영화를 찾지 못한 경우 표시
+        return <div>영화를 찾을 수 없습니다.</div>; // 영화가 없을 경우 메시지
     }
 
-    // 영화 데이터를 성공적으로 찾았다면, 상태에서 데이터를 가져와 사용
-    const { backdrop_path, poster_path, title, vote_average, genre_ids, overview } = movie;
-
-    // 배경 이미지 URL 생성
-    const backgroundImageUrl = movie?.backdrop_path ? `${baseUrl}${movie.backdrop_path}` : 'none';
-
-    const Background = styled.div`
-        position: fixed;
-        inset: 0;
-        background-image: ${({ imageUrl }) => `url(${imageUrl})`};
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        filter: grayscale(100%);
-        z-index: -1;
-    `;
+    const backgroundImageUrl = `${baseUrl}${movie.backdrop_path}`;
+    const posterImageUrl = `${baseUrl}${movie.poster_path}`;
 
     return (
-        <>
-            <div className="fixed inset-0 bg-cover bg-center bg-no-repeat grayscale z-[-1]">
-                <Background imageUrl={backgroundImageUrl} />
-            </div>
+        <div>
+            {/* 배경 이미지 */}
+            {backgroundImageUrl && (
+                <div className="fixed inset-0 bg-cover bg-center z-[-1] filter grayscale" style={{ backgroundImage: `url(${backgroundImageUrl})` }} >
+                </div>
+            )}
 
-            <div className="flex justify-center items-center min-h-screen">
-                <div className="relative p-6 max-w-5xl mx-auto flex flex-col md:flex-row items-end rounded-lg backdrop-blur-[50px]">
+            {/* 영화 상세 정보 */}
+            <div className="flex justify-center items-center py-10">
+                <div className="relative p-6 max-w-5xl mx-auto flex flex-col md:flex-row items-start md:items-center rounded-lg bg-black bg-opacity-50 text-white shadow-2xl">
 
                     {/* 포스터 이미지 */}
-                    <img src={`${baseUrl}${poster_path || backdrop_path}`} alt={title}
-                    className="w-full h-auto md:w-[300px] md:h-[450px] object-cover rounded-[8px] mb-[24px] md:mb-0 md:mr-[24px] relative" />
+                    {posterImageUrl && (
+                        <img
+                            src={posterImageUrl}
+                            alt={movie.title}
+                            className="w-[300px] h-[450px] object-cover rounded-[8px] mb-6 md:mb-0 md:mr-8"
+                        />
+                    )}
 
-                    {/* 오른쪽 영역: 영화 상세 정보 */}
-                    <div className='flex-1 flex flex-col relative p-4 rounded-[8px] justify-center'>
-
-                        <div className="flex items-center mb-[16px]">
-                            {/* 제목 영역 */}
-                            <h1 className="text-[30px] font-bold mr-[16px]">{title}</h1>
-                            {/* 평점 영역 */}
-                            <div className='flex items-center text-lg'>
-                                <p className='text-yellow-500 mr-[5px]'>★</p>
-                                <p>{vote_average ? vote_average.toFixed(1) : 'N/A'}</p>
-                            </div>
+                    {/* 영화 상세 정보 */}
+                    <div className="flex-1">
+                        <h1 className="text-3xl font-bold mb-2">{movie.title}</h1>
+                        <div className="flex items-center text-xl">
+                            <p className="text-yellow-400 mr-1">★</p>
+                            <p>{movie.vote_average.toFixed(1)}</p>
                         </div>
 
-                        {/* 장르 영역 */}
-                        {genre_ids && Array.isArray(genre_ids) && genre_ids.length > 0 ? (
-                        <div className="flex flex-wrap gap-[8px] my-[8px]">
-                            {genre_ids.map((genreId) => {
-                                const genre = genresList.find(g => g.id === genreId);
-                                return genre ? (
-                                    <span key={genreId} className="px-[12px] py-[4px] bg-gray-200 rounded-full text-sm">
-                                        {genre.name}
-                                    </span>
-                                ) : null;
-                            })}
+                        {/* 장르 */}
+                        <div className="my-4">
+                            {movie.genres && movie.genres.length > 0 ? (
+                                <div className="flex gap-2">
+                                    {movie.genres.map((genre) => (
+                                        <span key={genre.id} className="px-3 py-1 bg-gray-700 text-gray-200 rounded-full text-sm">
+                                            {genre.name}
+                                        </span>
+                                    ))}
+                                </div>
+                            ) : (
+                                <p>장르 정보 없음</p>
+                            )}
                         </div>
-                        ) : (
-                            <p className="text-sm text-gray-200">장르 정보 없음</p>
-                        )}
-                         {/* 줄거리 영역 */}
-                        <p className="text-gray-200 mt-4 text-base">{overview}</p>
+
+                        {/* 줄거리 */}
+                        <div>
+                            <h2 className="text-xl font-semibold mb-2">줄거리</h2>
+                            <p>{movie.overview}</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
-};
+}
 
 export default MovieDetail;
