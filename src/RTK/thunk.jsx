@@ -1,8 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
+const API = import.meta.env.VITE_API_TOKEN;
+
 export const fetchMovieData = createAsyncThunk(
   "movie/fetchMovieData",
-  async ({ API, page }) => {
+  async (page) => {
     const options = {
       method: "GET",
       headers: {
@@ -16,6 +18,6 @@ export const fetchMovieData = createAsyncThunk(
       options
     );
     const data = await res.json();
-    return {...data, page};
+    return { ...data, page };
   }
 );

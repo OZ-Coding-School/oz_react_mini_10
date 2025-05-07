@@ -10,27 +10,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchMovieData } from "./RTK/thunk";
 import NotFound from "./components/NotFound";
 
-const API = import.meta.env.VITE_API_TOKEN;
-
-// 첫 검색시 바로 search 페이지로 넘어가는 문제 수정 필요 (디바운스와 동일하게 1초뒤 변경할것)
-// swiper 의 random 페이지도 redux 로 관리하기
-// 404 페이지 구현하기
-
 function App() {
   const dispatch = useDispatch();
   const page = useSelector((state) => state.movie.page);
   const location = useLocation();
   const [isImageLoading, setisImageLoading] = useState(true);
+  const [swiperPages, setSwiperPages] = useState(null);
 
   useEffect(() => {
-    dispatch(fetchMovieData({ API, page }));
+    dispatch(fetchMovieData(page));
   }, []);
 
   const handleLoad = async (page) => {
-    dispatch(fetchMovieData({ API, page: page + 1 }));
+    dispatch(fetchMovieData(page + 1));
   };
 
-  const [swiperPages, setSwiperPages] = useState(null);
   useEffect(() => {
     setSwiperPages(radomPages(1));
   }, []);
