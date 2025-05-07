@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import MovieCard from './MovieCard';
 import {fetchMovies, Movie} from "../Data/MovieData.ts";
+import {LoadingPage} from "../Loading/LoadingPage.tsx";
 
 export default function MovieList() {
     const [movies, setMovies] = useState<Movie[]>([]);
@@ -14,12 +15,14 @@ export default function MovieList() {
     }, []);
 
     if (loading) {
+        return <LoadingPage message="영화 데이터를 불러오는 중입니다..." />;
+    }
+
+
+    if (movies.length === 0) {
         return (
             <div className="flex justify-center items-center min-h-screen">
-                <div className="flex flex-col items-center space-y-4">
-                    <div className="w-16 h-16 border-4 border-blue-300 border-t-transparent rounded-full animate-spin" />
-                    <div className="text-lg text-gray-600">영화 목록을 불러오는 중...</div>
-                </div>
+                <div className="text-lg text-gray-600">표시할 영화가 없습니다.</div>
             </div>
         );
     }

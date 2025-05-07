@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { fetchMovieDetail } from '../Data/MovieData';
 import type { MovieDetail } from '../Data/MovieData';
 import {TypeAnimation} from "react-type-animation";
+import {LoadingPage} from "../Loading/LoadingPage.tsx";
 
 export default function MovieDetail() {
     const { movieId } = useParams();
@@ -18,14 +19,7 @@ export default function MovieDetail() {
     }, [movieId]);
 
     if (loading) {
-        return (
-            <div className="flex justify-center items-center min-h-screen">
-                <div className="flex flex-col items-center space-y-4">
-                    <div className="w-16 h-16 border-4 border-blue-300 border-t-transparent rounded-full animate-spin" />
-                    <div className="text-lg text-gray-600">영화 정보를 불러오는 중...</div>
-                </div>
-            </div>
-        );
+        return <LoadingPage message="영화 정보를 불러오는 중.."/>;
     }
     if (!movie) return <div>영화 정보를 불러올 수 없습니다.</div>;
 
