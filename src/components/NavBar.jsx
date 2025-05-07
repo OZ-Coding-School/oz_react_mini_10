@@ -10,6 +10,7 @@ export default function NavBar() {
             placeholder="영화 검색"
             className="border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
+
           <button className="text-sm px-4 py-1 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition">
             로그인
           </button>
