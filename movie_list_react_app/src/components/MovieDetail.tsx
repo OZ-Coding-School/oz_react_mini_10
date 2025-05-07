@@ -6,7 +6,7 @@ import type { MovieDetail } from '../Data/MovieData';
 import {TypeAnimation} from "react-type-animation";
 import {LoadingPage} from "../Loading/LoadingPage.tsx";
 
-export default function MovieDetail() {
+export default function MovieDetail({ isDarkMode }: { isDarkMode: boolean }) {
     const { movieId } = useParams();
     const [movie, setMovie] = useState<MovieDetail | null>(null);
     const [loading, setLoading] = useState(true);
@@ -19,12 +19,12 @@ export default function MovieDetail() {
     }, [movieId]);
 
     if (loading) {
-        return <LoadingPage message="영화 정보를 불러오는 중.."/>;
+        return <LoadingPage message="영화 정보를 불러오는 중..." />;
     }
     if (!movie) return <div>영화 정보를 불러올 수 없습니다.</div>;
 
     return (
-        <div className="flex justify-center items-center min-h-screen px-4 py-16">
+        <div className={`flex justify-center items-center min-h-screen px-4 py-16 ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'} ${!isDarkMode ? 'text-black' : ''}`}>
             <div className="max-w-4xl w-full p-8 flex flex-col md:flex-row gap-10 items-start md:items-center">
                 <img
                     src={movie.poster}
@@ -33,14 +33,14 @@ export default function MovieDetail() {
                 />
                 <div className="flex-1">
                     <h1 className="text-3xl font-bold mb-2">{movie.title}</h1>
-                    <p className="text-lg text-gray-800 font-semibold mb-3">평점: {movie.vote_average.toFixed(1)}</p>
+                    <p className="text-lg font-semibold mb-3">평점: {movie.vote_average.toFixed(1)}</p>
                     <span className="pb-10 mb-10">장르</span>
                     <div className="flex flex-wrap gap-2 my-4 mb-4">
 
                         {movie.genres.map((genre) => (
                             <span
                                 key={genre}
-                                className="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm"
+                                className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-white px-3 py-1 rounded-full text-sm"
                             >
                                 {genre}
                             </span>
@@ -55,7 +55,7 @@ export default function MovieDetail() {
                         ]}
                         speed={1}
                         wrapper="p"
-                        className="text-gray-700 my-4 leading-relaxed"
+                        className="my-4 leading-relaxed"
                         cursor={true}
                     />
                 </div>
