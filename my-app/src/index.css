@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .gray-border {
+    border: solid 1px gainsboro;
+  }
+  .detail-card {
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.6));
+  }
+}
