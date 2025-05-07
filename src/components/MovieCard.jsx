@@ -1,4 +1,4 @@
-import { data, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -6,13 +6,15 @@ import 'swiper/css/pagination';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Loading from './Loading';
 
 
 function MovieCard() {
 
     const API = import.meta.env.VITE_APP_TMDB_ACCESS_TOKEN
     const movieData = 'https://api.themoviedb.org/3/movie/popular?language=ko'
-    const [movies, setMovies] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [movies, setMovies] = useState(null);
 
     const options = {
         method: 'GET',
@@ -28,14 +30,20 @@ function MovieCard() {
             const res = await axios.get(movieData, options);
             const filtered = res.data.results.filter(movie => !movie.adult);
             setMovies(filtered);
+            setIsLoading(false);
         } catch {
             alert('응 못받아옴 ㅅㄱ');
+            setIsLoading(false);
         }
     };
 
     useEffect(() => {
         getMovies();
     }, []);
+
+    if (isLoading) {
+        return <Loading />
+    }
 
 
     return (
@@ -55,7 +63,7 @@ function MovieCard() {
                     <SwiperSlide key={el.id}>
                         <Link to={`/detail/${el.id}`} key={el.id}>
 
-                            <div className=" text-white rounded  mt-[50px]">
+                            <div className=" text-white rounded  mt-[100px] select-none">
                                 <img
                                     src={`https://image.tmdb.org/t/p/w500${el.poster_path}`}
                                     alt={el.title}
@@ -75,7 +83,7 @@ function MovieCard() {
             <section className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mt-[50px] place-items-center">
                 {movies.map(el => (
                     <Link to={`/detail/${el.id}`} key={el.id}>
-                        <div className='card'>
+                        <div className='card select-none'>
                             <div className="wrapper">
                                 <img
                                     className='cover-image'
