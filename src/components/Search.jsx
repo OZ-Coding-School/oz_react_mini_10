@@ -1,40 +1,37 @@
-import { Link } from "react-router-dom";
-import styled from "styled-components";
+import { getRegExp } from "korean-regexp";
+import { useEffect, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import SwiperMovieCard from "./SwiperMovieCard";
 import { useSelector } from "react-redux";
 
-const Spiner = styled.div`
-  width: 50px;
-  height: 50px;
-  border: 5px solid #5389c3;
-  border-top: 5px solid #53c377;
-  border-radius: 50%;
-  animation: rotatespinner 1s infinite;
-  animation-timing-function: linear;
-
-  @keyframes rotatespinner {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-`;
-
-export default function MovieCard({
+export default function Search({
   swiperPages,
   isImageLoading,
   setisImageLoading,
 }) {
   const movieData = useSelector((state) => state.movie).results;
+  const [filteredData, setFilteredData] = useState([]);
+
+  const [searchParms] = useSearchParams();
+  const params = searchParms.get("movie");
+  const reg = getRegExp(params);
+
+  useEffect(() => {
+    // debounce
+    const debounceTimeer = setTimeout(() => {
+      const newfilteredData = movieData.filter((el) => el.title.match(reg));
+      setFilteredData(newfilteredData);
+    }, 1500);
+    return () => clearTimeout(debounceTimeer);
+  }, [params]);
+
   return (
     <>
       {swiperPages?.map((swiperPage) => (
         <SwiperMovieCard key={swiperPage} swiperPage={swiperPage} />
       ))}
       <ul className="flex justify-center flex-wrap gap-10 p-6 bg-gray-50">
-        {movieData
+        {filteredData
           .filter((movie) => !movie.adult)
           .map((filterMovie) => (
             <li
