@@ -1,12 +1,35 @@
 import { useState, useEffect } from 'react';
-import movieDetailData from '../data/movieDetailData.json';
+import { useParams } from 'react-router-dom';
 
 function MovieDetail() {
+  const { id } = useParams();
   const [movie, setMovie] = useState(null);
 
   useEffect(() => {
-    setMovie(movieDetailData);
-  }, []);
+    const fetchMovieDetail = async () => {
+      try {
+        const res = await fetch(`https://api.themoviedb.org/3/movie/${id}?language=ko-KR`, {
+          method: 'GET',
+          headers: {
+            accept: 'application/json',
+            Authorization: `Bearer ${import.meta.env.VITE_TMDB_READ_TOKEN}`,
+          },
+        });
+
+        if (!res.ok) {
+          console.error('API 요청 실패:', res.status, res.statusText);
+          return;
+        }
+
+        const data = await res.json();
+        setMovie(data);
+      } catch (error) {
+        console.error('데이터 불러오기 실패:', error);
+      }
+    };
+
+    fetchMovieDetail();
+  }, [id]);
 
   if (!movie) return <p className="text-center mt-20 text-gray-500">영화를 찾을 수 없습니다.</p>;
 
