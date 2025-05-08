@@ -13,3 +13,10 @@ ReactDom.createRoot(document.getElementById("root")).render(
     </BrowserRouter>
   </React.StrictMode>
 );
+
+<Routes>
+  <Route path="/" element={<Layout />}>
+    <Route index element={<MovieCard />} />
+    <Route path="details" element={<MovieDetail />} />
+  </Route>
+</Routes>;
