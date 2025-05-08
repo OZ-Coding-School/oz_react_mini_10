@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import SwiperMovieCard from "./SwiperMovieCard";
-import { useDispatch, useSelector } from "react-redux";
-import { searchMovieData } from "../RTK/thunk";
+import { useSelector } from "react-redux";
+import useSearchFetch from "../customHooks/useSearchFetch";
 
 export default function Search({
   swiperPages,
@@ -14,30 +13,8 @@ export default function Search({
   const filteredData = useSelector((state) => state.searchMovie.results);
   const [searchParms] = useSearchParams();
   const params = searchParms.get("movie");
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    // debounce
-    const debounceTimeer = setTimeout(() => {
-      dispatch(searchMovieData(params));
-      // const options = {
-      //   method: "GET",
-      //   headers: {
-      //     accept: "application/json",
-      //     Authorization: `Bearer ${API}`,
-      //   },
-      // };
-
-      // fetch(
-      //   `https://api.themoviedb.org/3/search/movie?query=${params}&include_adult=false&language=ko&page=1`,
-      //   options
-      // )
-      //   .then((res) => res.json())
-      //   .then((res) => setFilteredData(res.results))
-      //   .catch((err) => console.error(err));
-    }, 1000);
-    return () => clearTimeout(debounceTimeer);
-  }, [params]);
+  useSearchFetch(params);
 
   return (
     <>
