@@ -5,12 +5,10 @@ import Navbar from './NavBar';
 const Layout = () => {
     return (
         <>
-            <div>
-                <Navbar />
-                <main>
-                    <Outlet />
-                </main>
-            </div>
+            <Navbar />
+            <main className="pt-[64px]">
+                <Outlet />
+            </main>
         </>
     );
 };
