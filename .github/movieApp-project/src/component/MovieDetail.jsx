@@ -1,14 +1,26 @@
-import { useState } from 'react';
-import movieDetailData from "../moviedata/movieDetailData.json";
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import fetchMovieDetail from '../moviedata/movieDetailData';
 
-const MovieDetatil = () => {
-    const [movie, setMoive] = useState(movieDetailData)
+const MovieDetail = () => {
+    const [movie, setMoive] = useState(null)
     const {id} = useParams()
-    
+
+    useEffect(() => {
+      const getMovieDetail = async () => {
+        const data = await fetchMovieDetail(id)
+        setMoive(data);
+      };
+      getMovieDetail();
+    },[id])
+    //useEffect로 렌더링 이후에 api를 요청, [id]가 있으니 id가 업데이트 될 때마다 실행
+    //async가 있으면 항상 프로미스를 반환하는 함수가 됨. awati는 요청이 끝날 때까지 기다렸다가 값을 저장.
+    //가져온 데이터는 setMovie(data)를 통해 상태에 저장.
+    if (!movie) return <div>로딩 중...</div>
+
     return(
-      <div className='flex justify-center items-center max-w-200 max-h-200'>
-        <div className="flex gap-8 p-8">
+      <div className="flex justify-center items-center bg-gray-50">
+        <div className="flex md:flex-row gap-8 p-8 max-w-5xl bg-white shadow-xl rounded-lg">
         {/* 왼쪽: 포스터 */}
         <div className="flex-shrink-0 w-1/3">
           <img
@@ -32,7 +44,7 @@ const MovieDetatil = () => {
           <div className="mb-4">
             <span className="text-gray-500">장르: </span>
             <span className="font-medium">
-              {movie.genres.map((genre) => genre.name).join(', ')}
+             {movie.genres ? movie.genres.map((genre) => genre.name).join(', ') : '정보 없음'}
             </span>
           </div>
       
@@ -44,4 +56,4 @@ const MovieDetatil = () => {
     );
   };
 
-  export default MovieDetatil;
+  export default MovieDetail;
