@@ -1,18 +1,18 @@
 // components/MovieDetail.jsx
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { TOKEN } from '../data/const' 
 
 export default function MovieDetail() {
   const { id } = useParams(); // URL에서 영화 id 가져오기
   const [movie, setMovie] = useState(null);
 
   useEffect(() => {
-    const token = import.meta.env.VITE_TMDB_READ_TOKEN;
 
     fetch(`https://api.themoviedb.org/3/movie/${id}?language=ko-KR`, {
       headers: {
         accept: 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${TOKEN}`,
       },
     })
       .then((res) => res.json())

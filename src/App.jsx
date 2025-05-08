@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout'
 import MovieList from './components/MovieList';
 import MovieDetail from './components/MovieDetail';
-
+import MovieSearch from './components/Moviesearch';
 
 function App() {
   return (
@@ -11,7 +11,8 @@ function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<MovieList />} />
-          <Route path="/details/:id" element={<MovieDetail />} /> {/* 동적 라우팅 */}
+          <Route path="/details/:id" element={<MovieDetail />} />
+          <Route path="/search" element={<MovieSearch />} />
         </Route>
       </Routes>
     </div>

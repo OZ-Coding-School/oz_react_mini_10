@@ -1,0 +1,1 @@
+export const TOKEN = import.meta.env.VITE_TMDB_READ_TOKEN; // .env 파일에서 API 토큰 가져오기
