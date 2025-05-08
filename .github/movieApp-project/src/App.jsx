@@ -22,7 +22,7 @@ function App() {
       </nav>
 
       <main>
-      <div className="flex flex-wrap gap-8 w-full h-full">
+      <div className="flex justify-center items-center flex-wrap gap-8 w-full h-full">
         {movies.map((movie) => (
           <MovieCard
             key={movie.id}

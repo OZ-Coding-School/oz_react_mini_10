@@ -13,12 +13,14 @@ const MovieDetail = () => {
       };
       getMovieDetail();
     },[id])
-
+    //useEffect로 렌더링 이후에 api를 요청, [id]가 있으니 id가 업데이트 될 때마다 실행
+    //async가 있으면 항상 프로미스를 반환하는 함수가 됨. awati는 요청이 끝날 때까지 기다렸다가 값을 저장.
+    //가져온 데이터는 setMovie(data)를 통해 상태에 저장.
     if (!movie) return <div>로딩 중...</div>
 
     return(
-      <div className='flex justify-center items-center max-w-200 max-h-200'>
-        <div className="flex gap-8 p-8">
+      <div className="flex justify-center items-center bg-gray-50">
+        <div className="flex md:flex-row gap-8 p-8 max-w-5xl bg-white shadow-xl rounded-lg">
         {/* 왼쪽: 포스터 */}
         <div className="flex-shrink-0 w-1/3">
           <img
