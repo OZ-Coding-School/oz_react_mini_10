@@ -10,6 +10,7 @@ export const MovieCard = ({}) => {
                 <div key={index} className="flex-col border border-[Coral] p-2 w-60">
                     <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} />
                     <p>{movie.title}</p>
+                    <hr />
                     <p>평점 : {movie.vote_average}</p>
                     <hr />
                 </div>
