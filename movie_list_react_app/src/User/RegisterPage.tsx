@@ -4,7 +4,7 @@ import ky, { HTTPError } from 'ky';
 import { useNavigate, useLocation } from 'react-router-dom';
 import * as React from "react";
 
-export default function RegisterPage() {
+export default function RegisterPage({ isDarkMode }: { isDarkMode: boolean }) {
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from || '/';
@@ -48,7 +48,7 @@ export default function RegisterPage() {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-16 p-8 bg-white shadow-lg rounded-lg">
+        <form onSubmit={handleSubmit} className={`max-w-md mx-auto mt-16 p-8 shadow-lg rounded-lg ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'}`}>
             <div className="mb-6">
                 <label htmlFor="email" className="block text-gray-700 font-semibold mb-2">이메일</label>
                 <input
@@ -57,7 +57,7 @@ export default function RegisterPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="이메일"
-                    className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-600"
+                    className={`w-full px-4 py-2 rounded border focus:outline-none focus:ring-2 focus:ring-red-600 ${isDarkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white border-gray-300 text-black'}`}
                     required
                 />
             </div>
@@ -69,7 +69,7 @@ export default function RegisterPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="비밀번호"
-                    className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-600"
+                    className={`w-full px-4 py-2 rounded border focus:outline-none focus:ring-2 focus:ring-red-600 ${isDarkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white border-gray-300 text-black'}`}
                     required
                 />
             </div>
@@ -81,7 +81,7 @@ export default function RegisterPage() {
                     value={confirm}
                     onChange={(e) => setConfirm(e.target.value)}
                     placeholder="비밀번호 확인"
-                    className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-600"
+                    className={`w-full px-4 py-2 rounded border focus:outline-none focus:ring-2 focus:ring-red-600 ${isDarkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white border-gray-300 text-black'}`}
                     required
                 />
             </div>

@@ -33,8 +33,8 @@ function App() {
                         <Route index element={<MovieList isDarkMode={isDarkMode}/>}/>
                         <Route path="/details/:movieId" element={<MovieDetail isDarkMode={isDarkMode}/>}/>
                         <Route path="/search" element={<SearchPreview isDarkMode={isDarkMode}/>}/>
-                        <Route path="/register" element={<RegisterPage/>}/>
-                        <Route path="/login" element={<LoginPage />} />  {/* ✅ 이거 추가 */}
+                        <Route path="/register" element={<RegisterPage isDarkMode={isDarkMode}/>}/>
+                        <Route path="/login" element={<LoginPage isDarkMode={isDarkMode} />} />  {/* ✅ 이거 추가 */}
                     </Route>
                 </Routes>
             </Router>

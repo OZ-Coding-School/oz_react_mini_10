@@ -3,7 +3,7 @@ import ky from 'ky';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useUser } from '../context/UserContext';
 
-export default function LoginPage() {
+export default function LoginPage({ isDarkMode }: { isDarkMode: boolean }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -48,31 +48,31 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-white">
-      <form onSubmit={handleSubmit} className="w-full max-w-sm p-8 border border-gray-300 rounded-md shadow-md">
+    <div className={`flex justify-center items-center min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'}`}>
+      <form onSubmit={handleSubmit} className={`w-full max-w-sm p-8 rounded-md shadow-md ${isDarkMode ? 'bg-gray-800 border border-gray-600' : 'bg-white border border-gray-300'}`}>
         <h1 className="text-3xl font-semibold mb-6 text-center">Sign in</h1>
         {error && <p className="mb-4 text-red-600 text-sm">{error}</p>}
         <div className="mb-4">
-          <label htmlFor="email" className="block mb-1 font-medium text-gray-700">Email</label>
+          <label htmlFor="email" className={`block mb-1 font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>Email</label>
           <input
             id="email"
             type="email"
             required
             value={email}
             onChange={e => setEmail(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-red-600"
+            className={`w-full px-3 py-2 rounded border focus:outline-none focus:ring-2 ${isDarkMode ? 'bg-gray-700 text-white border-gray-500 placeholder-gray-400 focus:ring-yellow-500' : 'bg-white text-black border-gray-300 focus:border-red-600 focus:ring-red-500'}`}
             placeholder="you@example.com"
           />
         </div>
         <div className="mb-6">
-          <label htmlFor="password" className="block mb-1 font-medium text-gray-700">Password</label>
+          <label htmlFor="password" className={`block mb-1 font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>Password</label>
           <input
             id="password"
             type="password"
             required
             value={password}
             onChange={e => setPassword(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-red-600"
+            className={`w-full px-3 py-2 rounded border focus:outline-none focus:ring-2 ${isDarkMode ? 'bg-gray-700 text-white border-gray-500 placeholder-gray-400 focus:ring-yellow-500' : 'bg-white text-black border-gray-300 focus:border-red-600 focus:ring-red-500'}`}
             placeholder="Your password"
           />
         </div>
