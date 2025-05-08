@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import DetailPage from "./pages/Detail";
+import './App.scss';
 
 const App = () => {
   return (

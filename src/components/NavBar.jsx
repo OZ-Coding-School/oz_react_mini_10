@@ -1,15 +1,36 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const NavBar = () => {
+  const [searchInput, setSearchInput] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchInput.trim()) {
+      navigate(`/?search=${encodeURIComponent(searchInput)}`);
+      setSearchInput("");
+    }
+  };
+
   return (
     <nav style={styles.nav}>
       <div style={styles.left}>
         <Link to="/" style={styles.logo}>무비라운지</Link>
       </div>
+
       <div style={styles.center}>
-        <input type="text" placeholder="검색" style={styles.search} />
+        <form onSubmit={handleSearch}>
+          <input
+            type="text"
+            placeholder="검색"
+            style={styles.search}
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+          />
+        </form>
       </div>
+
       <div style={styles.right}>
         <button style={styles.button}>로그인</button>
         <button style={styles.button}>회원가입</button>
@@ -33,7 +54,6 @@ const styles = {
     color: "#fff",
     textDecoration: "none",
   },
-
   center: {
     flex: 1,
     margin: "0 20px",
