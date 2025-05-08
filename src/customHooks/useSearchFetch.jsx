@@ -7,9 +7,9 @@ export default function useSearchFetch(params) {
 
   useEffect(() => {
     // debounce
-    const debounceTimeer = setTimeout(() => {
+    const debounceTimer = setTimeout(() => {
       dispatch(searchMovieData(params)); // thunk 함수실행하여 redux 상태 업데이트
-    }, 1000);
-    return () => clearTimeout(debounceTimeer);
+    }, 0);
+    return () => clearTimeout(debounceTimer);
   }, [params]);
 }

@@ -1,10 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function NavBar() {
   const [searchInput, setSearchInput] = useState("");
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (searchInput) {
+        navigate(`/search?movie=${searchInput}`);
+      } else {
+        navigate("/");
+      }
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [searchInput]);
 
   return (
     <>
@@ -23,7 +35,11 @@ export default function NavBar() {
               onChange={(e) => {
                 const nowSearchInput = e.target.value;
                 setSearchInput(nowSearchInput);
-                navigate(`/search?movie=${nowSearchInput}`); // 상태변화가 비동기로 전달되어서 변수로 바로 전달
+                // if (nowSearchInput) {
+                //   navigate(`/search?movie=${nowSearchInput}`); // 상태변화가 비동기로 전달되어서 변수로 바로 전달
+                // } else {
+                //   navigate("/");
+                // }
               }}
               type="text"
               placeholder="영화 검색"
