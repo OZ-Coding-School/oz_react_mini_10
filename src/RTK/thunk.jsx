@@ -42,3 +42,23 @@ export const searchMovieData = createAsyncThunk(
     return data.results;
   }
 );
+
+//Detail API 방아오기
+export const detailMovieData = createAsyncThunk(
+  "detailMovie/fetchDetailMovieData",
+  async (movieId) => {
+    const options = {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${API}`,
+      },
+    };
+    const res = await fetch(
+      `https://api.themoviedb.org/3/movie/${movieId}?language=ko`,
+      options
+    );
+    const data = await res.json();
+    return data;
+  }
+);

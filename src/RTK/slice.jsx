@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchMovieData, searchMovieData } from "./thunk";
+import { detailMovieData, fetchMovieData, searchMovieData } from "./thunk";
 
 export const movieSlice = createSlice({
   name: "movie",
@@ -26,11 +26,11 @@ export const movieSlice = createSlice({
   },
 });
 
+//search Silce
 export const searchMovieSlice = createSlice({
   name: "searchMovie",
   initialState: {
     results: [],
-    // page: 1,
     loading: true,
   },
   reducers: {},
@@ -43,6 +43,29 @@ export const searchMovieSlice = createSlice({
         state.loading = false;
       })
       .addCase(searchMovieData.fulfilled, (state, action) => {
+        state.loading = false;
+        state.results = action.payload;
+      });
+  },
+});
+
+//detail Silce
+export const detailMovieSlice = createSlice({
+  name: "searchMovie",
+  initialState: {
+    results: [],
+    loading: true,
+  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(detailMovieData.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(detailMovieData.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(detailMovieData.fulfilled, (state, action) => {
         state.loading = false;
         state.results = action.payload;
       });
