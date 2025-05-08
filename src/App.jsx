@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import Card from './component/MovieCard';
 import Detail from './component/MovieDetail';
 import NavBar from './component/NavBar';
+import { ThemeProvider } from './component/ThemeContext'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
 
   return (
     <>
+    <ThemeProvider>
     <Router>
     <NavBar/>
       <Routes>
@@ -20,6 +22,7 @@ function App() {
         <Route path="/movie/:id" element={<Detail />} />
       </Routes>
     </Router>
+    </ThemeProvider>
     </>
   );
 }

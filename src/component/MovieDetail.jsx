@@ -26,7 +26,7 @@ const MovieDetail = () => {
 
     return (
         <div className="bg-black text-white min-h-screen">
-            {/* 백드롭 이미지 섹션 */}
+            
             <div className="relative w-full h-[60vh] overflow-hidden">
                 <div
                     className="absolute inset-0 bg-cover bg-center opacity-50"
