@@ -49,7 +49,6 @@ export default function ImageSlide({ movie }) {
       <button onClick={nextSlide} className='slide-btn right-3'>
         ›
       </button>
-      <span>{}</span>
       <div className='flex justify-center gap-2 mt-2'>
         {imgs.map((_, index) => (
           <span

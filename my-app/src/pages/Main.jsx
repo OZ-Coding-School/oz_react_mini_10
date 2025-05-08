@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { MovieCardSkeleton } from '@components/SkeletonUI'
 import ImageSlide from '@components/ImageSlide'
 import useFetch from '@hooks/useFetch'
+import { ImageSlideSkeleton } from '../components/SkeletonUI'
 
 export default function Main() {
   const { data, loading } = useFetch({
@@ -13,7 +14,7 @@ export default function Main() {
   return (
     <>
       <div className='w-full h-full'>
-        <ImageSlide movie={movie} />
+        {loading ? <ImageSlideSkeleton /> : <ImageSlide movie={movie} />}
         <div className='list-container'>
           {loading
             ? Array.from({ length: 20 }).map((_, index) => <MovieCardSkeleton key={index} />)

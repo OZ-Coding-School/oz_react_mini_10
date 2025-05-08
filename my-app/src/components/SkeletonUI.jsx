@@ -1,5 +1,9 @@
 import React from 'react'
 
+export function ImageSlideSkeleton() {
+  return <div className='w-full flex-shrink-0 h-[360px] bg-gray-300'></div>
+}
+
 export function MovieCardSkeleton() {
   return (
     <div className='w-[200px] animate-pulse space-y-2'>

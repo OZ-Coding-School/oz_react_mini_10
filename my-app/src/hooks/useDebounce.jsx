@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function useDebounce(value, delay = 1000) {
   const [query, setQuery] = useState(value)
