@@ -1,13 +1,18 @@
 import NavBar from "./NavBar.tsx";
-import {Outlet} from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
-export function Layout() {
+interface LayoutProps {
+    isDarkMode: boolean;
+    toggleDarkMode: () => void;
+}
+
+export function Layout({ isDarkMode, toggleDarkMode }: LayoutProps) {
     return (
-        <>
-            <NavBar/>
+        <div className={isDarkMode ? 'bg-black text-white min-h-screen' : 'bg-white text-black min-h-screen'}>
+            <NavBar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
             <main>
-                <Outlet/>
+                <Outlet context={{ isDarkMode, toggleDarkMode }} />
             </main>
-        </>
-    )
+        </div>
+    );
 }

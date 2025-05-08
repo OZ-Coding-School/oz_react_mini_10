@@ -56,7 +56,11 @@ export async function fetchMovies(): Promise<Movie[]> {
         .json<ApiResponse>();
 
     return data.results
-        .filter((movie) => !movie.adult)
+        .filter(
+            (movie) =>
+                !movie.adult &&
+                !/(19금|19세|19|청불|청소년관람불가|R등급|18\+|porn|sex|sexual|erotic|nude|xxx|adult|섹스|야함|노출|선정)/i.test(movie.title + " " + movie.overview)
+        )
         .map((movie) => ({
             id: movie.id,
             title: movie.title,
@@ -82,4 +86,32 @@ export async function fetchMovieDetail(movieId: string): Promise<MovieDetail> {
         poster: `https://image.tmdb.org/t/p/w500${data.poster_path}`,
         genres: data.genres.map((g) => g.name),
     };
+}
+
+// 영화 검색 (쿼리 기반)
+export async function searchMovies(query: string): Promise<Movie[]> {
+    if (!query.trim()) return [];
+
+    const data = await api
+        .get("search/movie", {
+            searchParams: {
+                language: "ko-KR",
+                query,
+                page: "1",
+            },
+        })
+        .json<ApiResponse>();
+
+    return data.results
+        .filter(
+            (movie) =>
+                !movie.adult &&
+                !/(19금|19세|19|청불|청소년관람불가|R등급|18\+|porn|sex|sexual|erotic|nude|xxx|adult|섹스|야함|노출|선정)/i.test(movie.title + " " + movie.overview)
+        )
+        .map((movie) => ({
+            id: movie.id,
+            title: movie.title,
+            rating: movie.vote_average,
+            poster: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+        }));
 }

@@ -18,7 +18,7 @@ type Movie = {
     rating: number;
 };
 
-export default function MovieSliderPage() {
+export default function MovieSliderPage({ isDarkMode }: { isDarkMode: boolean }) {
     const [movieSlider, setMovieSlider] = useState<Movie[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -36,18 +36,19 @@ export default function MovieSliderPage() {
     return (
         <>
 
-            <div className="w-screen h-screen bg-white  text-black flex flex-col overflow-auto">
-                <h1 className="text-3xl font-bold text-center py-6">🎞 영화 슬라이드</h1>
-
-                <div className="flex-1 flex items-center">
+            <div className={`w-screen h-screen flex flex-col overflow-auto ${isDarkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
+                <div className="flex-1 flex items-center m-0 p-0">
                     <Swiper
                         modules={[Navigation, Autoplay]}
                         spaceBetween={40}
                         slidesPerView={1}
-                        navigation
                         autoplay={{ delay: 3000, disableOnInteraction: false }}
                         pagination={false}
-                        className="w-full h-full flex-1"
+                        className="w-full h-full flex-1 relative"
+                        navigation={{
+                            nextEl: '.swiper-button-next',
+                            prevEl: '.swiper-button-prev',
+                        }}
                     >
                         {movieSlider.map((movie) => (
                             <SwiperSlide key={movie.id} className="h-full flex justify-center items-center px-4">
@@ -56,17 +57,15 @@ export default function MovieSliderPage() {
                                     <img
                                         src={movie.poster}
                                         alt={movie.title}
-                                        className="max-w-[90vw] max-h-[70vh] object-contain rounded-lg shadow-lg"
+                                        className="w-full h-[70vh] object-cover mb-2"
                                     />
                                     </Link>
-                                    <div className="p-4">
-                                        <h3 className="text-2xl font-semibold mb-2">{movie.title}</h3>
-                                        <p className="text-yellow-500 text-lg font-bold">⭐ {movie.rating}</p>
-                                    </div>
                                 </div>
                             </SwiperSlide>
                         ))}
                     </Swiper>
+                    <div className="swiper-button-prev !text-white !w-10 !h-10 !bg-black/50 !rounded-full z-10" />
+                    <div className="swiper-button-next !text-white !w-10 !h-10 !bg-black/50 !rounded-full z-10" />
                 </div>
             </div>
         </>
