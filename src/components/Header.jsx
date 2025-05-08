@@ -1,16 +1,13 @@
 import { cn } from "@utils/cn";
-import { Link, useLocation } from "react-router";
+import { Link } from "react-router";
 
-const Header = () => {
-  const { pathname } = useLocation();
-  const onDetailPage = pathname.startsWith("/detail");
-
+const Header = ({ onFixed }) => {
   return (
     <div
       className={cn(
         "mx-auto flex h-18 w-full items-center gap-8 lg:max-w-5xl xl:max-w-7xl",
         {
-          "fixed left-1/2 z-999 translate-x-[-50%] text-white": onDetailPage,
+          "fixed left-1/2 z-999 translate-x-[-50%] text-white": onFixed,
         },
       )}
     >
@@ -21,7 +18,7 @@ const Header = () => {
         className={cn(
           "flex h-10 w-100 items-center rounded-3xl px-6 shadow-md",
           {
-            "backdrop-blur-2xl": onDetailPage,
+            "backdrop-blur-2xl": onFixed,
           },
         )}
       >
