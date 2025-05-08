@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import MovieCard from "./MovieCard";
+import { TOKEN } from "../data/const";
 
 export default function MovieList() {
     const [movies, setMovies] = useState([]); // 상태로 영화 목록을 관리
   
     useEffect(() => {
-      const token = import.meta.env.VITE_TMDB_READ_TOKEN; // .env 파일에서 API 토큰 가져오기
   
       // TMdb API 호출
       fetch('https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1', {
         headers: {
           accept: 'application/json',
-          Authorization: `Bearer ${token}`, // API 토큰을 Authorization 헤더에 포함
+          Authorization: `Bearer ${TOKEN}`, // API 토큰을 Authorization 헤더에 포함
         },
       })
         .then((res) => res.json()) // JSON으로 응답받기
