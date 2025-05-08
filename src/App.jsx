@@ -1,20 +1,25 @@
-// App.jsx
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import ListPage from './component/ListPage';
-import MovieDetail from './component/MovieDetail';
+import { useEffect } from 'react';
+import Card from './component/MovieCard';
+import Detail from './component/MovieDetail';
 import NavBar from './component/NavBar';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
+
+  useEffect(() => {
+    console.log("TMDB Token:", import.meta.env.VITE_TMDB_READ_TOKEN);
+  }, []);
+
+
   return (
-    <>   
-    <NavBar />
-    <BrowserRouter>
+    <>
+    <Router>
+    <NavBar/>
       <Routes>
-        <Route path="/" element={<ListPage />} />
-        <Route path="/movie/1" element={<MovieDetail />} />
+        <Route path="/" element={<Card />} />
+        <Route path="/movie/:id" element={<Detail />} />
       </Routes>
-    </BrowserRouter>
+    </Router>
     </>
   );
 }
