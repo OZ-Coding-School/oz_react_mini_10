@@ -9,11 +9,10 @@ export default function Navbar() {
   const debouncedValue = useDebounce(inputValue, 1000)
 
   useEffect(() => {
-    const trimValue = debouncedValue.trim()
-    if (trimValue !== '') {
+    if (debouncedValue) {
       navigate(`/search?query=${debouncedValue}`)
     }
-  }, [debouncedValue, navigate])
+  }, [debouncedValue])
 
   // const inputRef = useRef(null)
   // const handleSearch = () => {
