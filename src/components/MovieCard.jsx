@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import SwiperMovieCard from "./SwiperMovieCard";
-import { radomPages } from "../functions/RandomPage";
+import { useSelector } from "react-redux";
 
 const Spiner = styled.div`
   width: 50px;
@@ -23,13 +22,12 @@ const Spiner = styled.div`
   }
 `;
 
-export default function MovieCard({ movieData }) {
-  const [isImageLoading, setisImageLoading] = useState(true);
-  const [swiperPages, setSwiperPages] = useState(null);
-  useEffect(() => {
-    setSwiperPages(radomPages(1));
-  }, []);
-
+export default function MovieCard({
+  swiperPages,
+  isImageLoading,
+  setisImageLoading,
+}) {
+  const movieData = useSelector((state) => state.movie).results;
   return (
     <>
       {swiperPages?.map((swiperPage) => (

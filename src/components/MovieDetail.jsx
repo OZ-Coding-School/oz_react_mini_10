@@ -1,67 +1,54 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Skeleton from "./Skeleton";
+import { useDispatch, useSelector } from "react-redux";
+import { detailMovieData } from "../RTK/thunk";
 
 export default function MovieDetail() {
   const params = useParams();
-  // console.log(params.id);
-  const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const API = import.meta.env.VITE_API_TOKEN;
-
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${API}`,
-    },
-  };
-  const fetchData = () => {
-    fetch(
-      `https://api.themoviedb.org/3/movie/${params.id}?language=ko`,
-      options
-    )
-      .then((res) => res.json())
-      .then((res) => {
-        setData(res);
-        setIsLoading(false);
-      })
-      .catch((err) => console.error(err));
-  };
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.detailMovie.results);
 
   useEffect(() => {
-    fetchData();
+    dispatch(detailMovieData(params.id));
   }, []);
+
+  useEffect(() => {
+    if (data) {
+      setIsLoading(false);
+    }
+  }, [data]);
 
   {
     if (isLoading) return <Skeleton />;
   }
   return (
-    <div className="relative w-full h-[600px] text-white">
+    <div className="relative w-full h-[400px] md:h-[600px] text-white">
       <img
         src={`https://image.tmdb.org/t/p/original${data.backdrop_path}`}
         alt={data.title}
-        className="w-full h-full object-cover"
+        onLoad={() => setIsImageLoaded(true)}
+        className={`w-full h-full object-cover absolute top-0 left-0 transition-opacity duration-1000 ${
+          isImageLoaded ? "opacity-100" : "opacity-0"
+        }`}
       />
-
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent"></div>
-
-      <div className="absolute bottom-10 left-6 md:left-12 max-w-2xl space-y-6">
-        <h1 className="text-3xl md:text-5xl font-bold">{data.title}</h1>
-
-        <div className="text-lg md:text-xl text-gray-300">
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent z-10" />
+      <div className="absolute bottom-6 left-4 md:bottom-10 md:left-12 max-w-full md:max-w-2xl space-y-3 md:space-y-6 z-20 px-2">
+        <h1 className="text-xl sm:text-2xl md:text-5xl font-bold break-words">
+          {data.title}
+        </h1>
+        <div className="text-sm sm:text-base md:text-xl text-gray-300">
           평점: {data.vote_average}
         </div>
-
-        <div className="text-sm md:text-base text-gray-300">
+        <div className="text-xs sm:text-sm md:text-base text-gray-300">
           장르: {data.genres?.map((el) => el.name).join(", ")}
         </div>
-
-        <p className="text-base md:text-lg text-gray-200 leading-relaxed line-clamp-4">
+        <p className="text-sm sm:text-base md:text-lg text-gray-200 leading-relaxed line-clamp-4">
           {data.overview}
         </p>
-
-        <div className="flex gap-4 mt-4"></div>
+        <div className="flex gap-3 mt-3" />
       </div>
     </div>
   );
