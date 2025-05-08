@@ -35,9 +35,11 @@ export default function MovieList({isDarkMode}: { isDarkMode: boolean }) {
                     <MovieSliderPage isDarkMode={isDarkMode} />
                 </div>
             </div>
-            <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4 pt-2 pb-6">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4 auto-rows-fr">
                 {movies.map((movie) => (
-                    <MovieCard isDarkMode={isDarkMode} key={movie.id} {...movie} />
+                    <div key={movie.id} className="h-full">
+                        <MovieCard isDarkMode={isDarkMode} {...movie} />
+                    </div>
                 ))}
             </div>
         </div>

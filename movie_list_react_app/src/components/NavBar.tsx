@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import {useDebounce} from "../hooks/useDebounce.ts";
 
-export default function NavBar({ isDarkMode, toggleDarkMode }: { isDarkMode: boolean, toggleDarkMode: () => void }) {
+export default function NavBar({ isDarkMode, toggleDarkMode }: { isDarkMode: boolean; toggleDarkMode: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
   const navigate = useNavigate();
@@ -13,8 +13,6 @@ export default function NavBar({ isDarkMode, toggleDarkMode }: { isDarkMode: boo
     const trimmed = debouncedSearch.trim();
     if (trimmed) {
       navigate(`/search?query=${encodeURIComponent(trimmed)}`);
-    } else {
-      navigate('/', { replace: true });
     }
   }, [debouncedSearch]);
 
@@ -52,8 +50,8 @@ export default function NavBar({ isDarkMode, toggleDarkMode }: { isDarkMode: boo
           {/* 링크 (데스크탑용) */}
           <div className="hidden lg:flex space-x-4 items-center">
             <Link to="/" className="hover:text-yellow-400">Home</Link>
-            <button>로그인</button>
-            <button>회원가입</button>
+            <Link to="/" className="block hover:text-yellow-400">Home</Link>
+            <Link to="/register" className="block hover:text-yellow-400">회원가입</Link>
             <button
               onClick={toggleDarkMode}
               className="px-3 py-1 bg-gray-600 text-white rounded hover:bg-gray-500"
@@ -77,13 +75,14 @@ export default function NavBar({ isDarkMode, toggleDarkMode }: { isDarkMode: boo
             />
             <div className="space-y-2">
               <Link to="/" className="block hover:text-yellow-400">Home</Link>
-              <button>로그인</button>
-              <br/>
-              <button>회원가입</button>
+              <Link to="/" className="block hover:text-yellow-400">Home</Link>
+              <Link to="/register" className="block hover:text-yellow-400">회원가입</Link>
+
+
             </div>
             <button
               onClick={toggleDarkMode}
-              className="mt-2 px-3 py-1 bg-gray-600 text-white rounded hover:bg-gray-500"
+
             >
               {isDarkMode ? '☀️ Light' : '🌙 Dark'}
             </button>

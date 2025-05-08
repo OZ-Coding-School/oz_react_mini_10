@@ -10,6 +10,11 @@ export default function SearchPreview({ isDarkMode }: { isDarkMode: boolean }) {
     const [results, setResults] = useState<Movie[]>([]);
 
     useEffect(() => {
+        if (!query) {
+            setResults([]);
+            return;
+        }
+
         searchMovies(query)
             .then(setResults)
             .catch((err) => {
@@ -26,13 +31,15 @@ export default function SearchPreview({ isDarkMode }: { isDarkMode: boolean }) {
                 results.length === 1 ? (
                     <div className="flex justify-center">
                         <div className="max-w-sm w-full">
-                            <MovieCard isDarkMode={false} {...results[0]} />
+                            <MovieCard isDarkMode={isDarkMode} {...results[0]} />
                         </div>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 auto-rows-fr">
                         {results.map((movie) => (
-                            <MovieCard isDarkMode={false} key={movie.id} {...movie} />
+                            <div key={movie.id} className="flex flex-col h-full">
+                              <MovieCard isDarkMode={isDarkMode} {...movie} />
+                            </div>
                         ))}
                     </div>
                 )
