@@ -1,13 +1,18 @@
 import { useState } from 'react';
+import { useUser } from '../context/UserContext';
 import ky, { HTTPError } from 'ky';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import * as React from "react";
 
 export default function RegisterPage() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from || '/';
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirm, setConfirm] = useState('');
     const [message, setMessage] = useState('');
+    const { setUser } = useUser();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -18,11 +23,20 @@ export default function RegisterPage() {
 
         try {
             await ky.post('/api/register', {
-                json: { username: email, password },
+                json: { email: email, password },
                 credentials: 'include',
             });
+            // Fetch current user after successful registration and update context
+            const response = await ky.get('/api/current-user', { credentials: 'include' }).json();
+            interface User {
+                id: string;
+                email: string;
+                // Add other fields as needed from your backend
+            }
+            const user = (response as { user: User }).user;
+            setUser(user);
             setMessage('회원가입 성공!');
-            navigate('/');
+            navigate(from);
         } catch (err) {
             if (err instanceof HTTPError) {
                 const errorData = await err.response.json();

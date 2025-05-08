@@ -30,11 +30,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.post('/api/register', async (req, res) => {
-    const { username, password } = req.body;
-    const exists = await User.findOne({ username });
+    const { email, password } = req.body;
+    const exists = await User.findOne({ email });
     if (exists) return res.status(400).json({ message: '이미 존재하는 사용자입니다.' });
 
-    const user = new User({ username, password });
+    const user = new User({ email, password });
     await user.save();
     req.login(user, (err) => {
         if (err) return res.status(500).json({ message: '세션 오류' });
@@ -48,13 +48,13 @@ app.post('/api/login', (req, res, next) => {
         if (!user) return res.status(401).json({ message: info.message });
         req.login(user, (loginErr) => {
             if (loginErr) return res.status(500).json({ message: '세션 로그인 실패' });
-            res.json({ message: '로그인 성공', user: { username: user.username } });
+            res.json({ message: '로그인 성공', user: { email: user.email } });
         });
     })(req, res, next);
 });
 
 app.get('/api/current-user', (req, res) => {
-    if (req.isAuthenticated()) res.json({ user: req.user });
+    if (req.isAuthenticated()) res.json({ user: { email: req.user.email } });
     else res.status(401).json({ message: '인증되지 않음' });
 });
 

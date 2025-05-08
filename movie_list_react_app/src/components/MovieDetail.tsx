@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
 import { fetchMovieDetail } from '../Data/MovieData';
 import type { MovieDetail } from '../Data/MovieData';
@@ -8,18 +8,45 @@ import {LoadingPage} from "../Loading/LoadingPage.tsx";
 
 export default function MovieDetail({ isDarkMode }: { isDarkMode: boolean }) {
     const { movieId } = useParams();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [user, setUser] = useState<{ email: string } | null | undefined>(undefined);
     const [movie, setMovie] = useState<MovieDetail | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (!movieId) return;
+        fetch('/api/current-user', { credentials: 'include' })
+            .then(async (res) => {
+                if (!res.ok) {
+                    setUser(null);
+                    navigate('/login', { state: { from: location.pathname } });
+                } else {
+                    const data = await res.json();
+                    setUser(data.user);
+                }
+            })
+            .catch(() => {
+                setUser(null);
+                navigate('/login', { state: { from: location.pathname } });
+            });
+    }, [navigate, location.pathname]);
+
+    useEffect(() => {
+        if (user === undefined || !movieId) return;
+        if (user === null) {
+            setLoading(false);
+            return;
+        }
         fetchMovieDetail(movieId)
             .then(setMovie)
             .finally(() => setLoading(false));
-    }, [movieId]);
+    }, [movieId, user]);
 
     if (loading) {
         return <LoadingPage message="영화 정보를 불러오는 중..." />;
+    }
+    if (user === null) {
+        return null;
     }
     if (!movie) return <div>영화 정보를 불러올 수 없습니다.</div>;
 

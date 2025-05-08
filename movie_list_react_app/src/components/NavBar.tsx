@@ -1,18 +1,66 @@
 import { useState, useEffect } from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import {useDebounce} from "../hooks/useDebounce.ts";
+import { useUser } from '../context/UserContext';
 
 export default function NavBar({ isDarkMode, toggleDarkMode }: { isDarkMode: boolean; toggleDarkMode: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
+  const { user, setUser } = useUser();
   const navigate = useNavigate();
   const debouncedSearch = useDebounce(search, 500);
+
+  const location = useLocation();
+
+  const userName = user?.email?.split('@')[0] || '';
+
+  // Fetch current user on mount
+  useEffect(() => {
+    fetch('/api/current-user', { credentials: 'include' })
+      .then(async res => {
+        if (!res.ok) throw new Error('Unauthorized');
+        const data = await res.json();
+        console.log('User loaded:', data.user);
+        setUser(data.user);
+      })
+      .catch(() => {
+        setUser(null);
+      });
+  }, []);
+
+  const goToRegister = () => {
+    navigate('/register', { state: { from: location.pathname } });
+  };
+
+  const goToLogin = () => {
+    navigate('/login', { state: { from: location.pathname } });
+    console.log(location.pathname)
+  };
+
+  const logout = async () => {
+    try {
+      const response = await fetch('/api/logout', {
+        method: 'POST',
+        credentials: 'include',
+      });
+      if (response.ok) {
+        setUser(null);
+        navigate('/');
+      }
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
 
   useEffect(() => {
     const trimmed = debouncedSearch.trim();
     if (trimmed) {
-      navigate(`/search?query=${encodeURIComponent(trimmed)}`);
+      navigate(`/search?query=${encodeURIComponent(trimmed)}`, { replace: true });
+    } else {
+      if (location.pathname === '/search') {
+        navigate('/', { replace: true });
+      }
     }
   }, [debouncedSearch]);
 
@@ -50,8 +98,19 @@ export default function NavBar({ isDarkMode, toggleDarkMode }: { isDarkMode: boo
           {/* 링크 (데스크탑용) */}
           <div className="hidden lg:flex space-x-4 items-center">
             <Link to="/" className="hover:text-yellow-400">Home</Link>
-            <Link to="/" className="block hover:text-yellow-400">Home</Link>
-            <Link to="/register" className="block hover:text-yellow-400">회원가입</Link>
+            {user ? (
+              <>
+                <span>{userName && `${userName}님`}</span>
+                <button onClick={logout} className="hover:text-yellow-400">로그아웃</button>
+              </>
+            ) : (
+              <>
+                <button onClick={goToLogin} className="block hover:text-yellow-400">로그인</button>
+                <button onClick={goToRegister}>
+                  회원가입
+                </button>
+              </>
+            )}
             <button
               onClick={toggleDarkMode}
               className="px-3 py-1 bg-gray-600 text-white rounded hover:bg-gray-500"
@@ -75,10 +134,17 @@ export default function NavBar({ isDarkMode, toggleDarkMode }: { isDarkMode: boo
             />
             <div className="space-y-2">
               <Link to="/" className="block hover:text-yellow-400">Home</Link>
-              <Link to="/" className="block hover:text-yellow-400">Home</Link>
-              <Link to="/register" className="block hover:text-yellow-400">회원가입</Link>
-
-
+              {user ? (
+                <div>
+                  <span>{userName && `${userName}님`}</span>
+                  <button onClick={logout} className="hover:text-yellow-400">로그아웃</button>
+                </div>
+              ) : (
+                <>
+                  <button onClick={goToLogin} className="block hover:text-yellow-400">로그인</button>
+                  <button onClick={goToRegister} className="hover:text-yellow-400">회원가입</button>
+                </>
+              )}
             </div>
             <button
               onClick={toggleDarkMode}
