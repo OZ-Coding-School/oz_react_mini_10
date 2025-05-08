@@ -3,11 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
-const MovieCard = ({ title, posterPath, voteAverage }) => {
+const MovieCard = ({ id,title, posterPath, voteAverage }) => {
   const navigate = useNavigate(); 
 
   const handleClick = () => {
-    navigate("/detail"); 
+    console.log('Navigating to:', `/detail/${id}`);
+    navigate(`/detail/${id}`); 
   };
 
   return (
