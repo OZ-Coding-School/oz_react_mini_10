@@ -15,7 +15,7 @@ function MovieDetail() {
             }
           };
           
-          fetch(`https://api.themoviedb.org/3/movie/${id}?language=en-US`, options)
+          fetch(`https://api.themoviedb.org/3/movie/${id}?language=ko-KO`, options)
             .then(res => res.json())
             .then(data => {
                 console.log(data)

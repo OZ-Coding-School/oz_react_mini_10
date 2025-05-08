@@ -20,7 +20,7 @@ function Home() {
           }
         };
         
-        fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', options)
+        fetch('https://api.themoviedb.org/3/movie/popular?language=ko-KO&page=1', options)
           .then(res => res.json())
           .then(data => {
             console.log(data)
