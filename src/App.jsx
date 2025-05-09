@@ -1,29 +1,43 @@
-import { useEffect } from 'react';
 import Card from './component/MovieCard';
 import Detail from './component/MovieDetail';
 import NavBar from './component/NavBar';
-import { ThemeProvider } from './component/ThemeContext'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import AuthUI from './component/Auth';
+import Dashboard from './component/Dashboard';
+import Footer from './component/Footer';
+import { ThemeProvider } from './component/ThemeContext';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { supabase } from './supabase';
 
-function App() {
-
-  useEffect(() => {
-    console.log("TMDB Token:", import.meta.env.VITE_TMDB_READ_TOKEN);
-  }, []);
-
+function Main() {
+  const location = useLocation();
+  const hideNavBar = location.pathname === '/auth'|| location.pathname === '/dashboard';
+  const hideFooter = location.pathname === '/auth';
 
   return (
     <>
-    <ThemeProvider>
-    <Router>
-    <NavBar/>
+    <div className="flex flex-col min-h-screen">
+    <main className="flex-grow">
+      {!hideNavBar && <NavBar />}
       <Routes>
         <Route path="/" element={<Card />} />
         <Route path="/movie/:id" element={<Detail />} />
+        <Route path="/auth" element={<AuthUI />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
-    </Router>
-    </ThemeProvider>
+      </main>
+      {!hideFooter && <Footer />}
+    </div>
     </>
+  );
+}
+
+function App() {
+  return (
+    <ThemeProvider>
+      <Router>
+        <Main />
+      </Router>
+    </ThemeProvider>
   );
 }
 

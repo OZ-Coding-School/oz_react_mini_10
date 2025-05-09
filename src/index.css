@@ -5,4 +5,5 @@
     src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2502-1@1.0/MarinesBold.woff2') format('woff2');
     font-weight: 700;
     font-style: normal;
+    user-select: none;
 }
