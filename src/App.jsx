@@ -8,7 +8,7 @@ const App = () => {
   const ROUTES = [
     {
       element: <Main />,
-      path: "/",
+      path: "/?query?",
     },
     {
       element: <MovieDetail />,

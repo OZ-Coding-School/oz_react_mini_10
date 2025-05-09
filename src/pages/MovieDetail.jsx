@@ -1,4 +1,5 @@
 import { findByMovieId } from "@api/findByMovieId";
+import Genres from "@components/ui/detail/Genres";
 import { BASE_URL, LARGE_BASE_URL } from "@constants/baseUrl";
 import { useFetch } from "@hooks/useFetch";
 import { useMemo } from "react";
@@ -29,38 +30,22 @@ const MovieDetail = () => {
   }
 
   return (
-    <div
-      className="relative flex h-180 w-full items-end justify-center bg-cover pb-2"
-      style={{ backgroundImage: `url(${LARGE_BASE_URL}${backdrop_path})` }}
-    >
-      <div className="absolute top-0 left-0 z-10 h-180 w-full bg-gradient-to-t from-black"></div>
-      <div className="z-20 flex max-w-7xl gap-12 p-8">
+    <div className="flex w-full max-w-[1280px] items-end justify-center">
+      <div
+        className="absolute top-0 left-0 z-0 h-180 w-full bg-cover"
+        style={{ backgroundImage: `url(${LARGE_BASE_URL}${backdrop_path})` }}
+      ></div>
+      <div className="z-10 flex flex-wrap justify-center gap-4 px-4 py-18 text-white">
         <img
           alt="poster"
           className="h-[450px] w-[300px] rounded-2xl shadow-md"
           src={`${BASE_URL}${poster_path}`}
         />
-        <div className="flex h-[450px] flex-col gap-6 text-white">
-          <div className="flex flex-col gap-4 rounded-xl p-4 shadow-md backdrop-blur-2xl">
-            <div className="flex flex-col">
-              <div className="text-4xl font-bold">{title}</div>
-              <div>평점 : {vote_average}</div>
-            </div>
-            <div className="flex gap-4">
-              {genres?.map(({ id, name }) => (
-                <span
-                  className="rounded-2xl border-2 border-gray-100 p-2 text-sm"
-                  key={id}
-                >
-                  {name}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className="rounded-xl p-4 shadow-md backdrop-blur-2xl">
-            {overview}
-          </div>
+        <div className="flex max-w-[500px] flex-col gap-4 rounded-xl bg-black p-8">
+          <div className="text-4xl font-bold">{title}</div>
+          <div>평점 : {vote_average}</div>
+          <Genres genres={genres} />
+          <div>{overview}</div>
         </div>
       </div>
     </div>
