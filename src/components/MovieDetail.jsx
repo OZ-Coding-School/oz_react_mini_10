@@ -9,7 +9,7 @@ import 'swiper/css/pagination';
 import { Autoplay, Navigation } from 'swiper/modules';
 
 
-function MovieDetail({ setQuery }) {
+function MovieDetail() {
 
     let [fade, setFade] = useState('fade-start');
     const { movie_id } = useParams();
@@ -54,8 +54,6 @@ function MovieDetail({ setQuery }) {
     useEffect(() => {
         if (!isLoading) {
             setFade('fade-end');
-            setQuery('');
-
         }
     }, [isLoading]);
 
