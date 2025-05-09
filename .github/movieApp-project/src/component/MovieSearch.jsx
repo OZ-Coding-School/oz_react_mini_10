@@ -1,8 +1,8 @@
 import { useSearchParams } from "react-router-dom"
 import { useDebounce } from "../hook/debounce";
 import { useEffect, useState } from "react";
-import { movieSearchAPI } from "../movieAPI/movieSearchAPI";
 import MovieCard from "./moviecard";
+import { movieSearchAPI } from '../movieAPI/movieSearchAPI';
 
 const MovieSearch = () => {
     const [searchParams] = useSearchParams();

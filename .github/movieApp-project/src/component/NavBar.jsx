@@ -19,7 +19,7 @@ const NavBar = () => {
         <div className = "flex justify-between items-center bg-gray-600 p-3" >
             <Link to = '/'> <h2 className="text-4xl pl-7">OZ무비</h2></Link>
             <input 
-            className = "bg-white" 
+            className = "bg-white p-1 rounded-lg" 
             type = "text" 
             placeholder = "검색" 
             value = {query}

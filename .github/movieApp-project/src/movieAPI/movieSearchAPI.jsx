@@ -1,4 +1,4 @@
-export const movieSearch = async (query) => {
+export const movieSearchAPI = async (query) => {
 if (!query) return []
 
 const options = {
@@ -12,7 +12,7 @@ const options = {
   try{
     const res = await fetch(`https://api.themoviedb.org/3/search/movie?include_adult=false&query=${encodeURIComponent(query)}&language=ko-KR&page=1`, options)
     const data = await res.json()
-    return data;
+    return data.results;
     } catch (err) {
         console.error(err);
         return [];

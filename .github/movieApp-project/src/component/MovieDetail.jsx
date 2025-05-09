@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import fetchMovieDetail from '../movieAPI/movieDetailData';
+import fetchMovieDetail from '../movieAPI/movieDetailAPI';
 
 const MovieDetail = () => {
     const [movie, setMoive] = useState(null)
