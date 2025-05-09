@@ -1,10 +1,10 @@
 import { Outlet } from "react-router-dom";
 import NavBar from "./NavBar";
 
-function Layout() {
+function Layout({query, setQuery}) {
     return (
         <>
-            <NavBar />
+            <NavBar query={query} setQuery={setQuery}/>
             <Outlet />
         </>
     )
