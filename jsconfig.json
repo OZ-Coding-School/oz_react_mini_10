@@ -10,6 +10,7 @@
       "@utils/*": ["./src/utils/*"],
       "@store/*": ["./src/store/*"],
       "@constants/*": ["./src/constants/*"],
+      "@supabaseJS/*": ["./src/supabase/*"],
     }
   },
   "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.json"]
