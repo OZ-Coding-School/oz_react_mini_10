@@ -7,9 +7,9 @@ import { ImageSlideSkeleton } from '../components/SkeletonUI'
 
 export default function Main() {
   const { data, loading } = useFetch({
-    url: 'https://api.themoviedb.org/3/movie/popular?language=ko&page=1&region=KR',
+    url: 'https://api.themoviedb.org/3/movie/popular?language=ko&include_adult=false&page=1&region=KR',
   })
-  const movie = data?.results?.filter((el) => !el.adult) || []
+  const movie = data?.results || []
 
   return (
     <>

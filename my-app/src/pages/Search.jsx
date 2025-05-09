@@ -11,8 +11,7 @@ export default function Search() {
   })
 
   // 성인 영화를 제외하고 가져오도록 필터링
-  const movie = data?.results?.filter((el) => !el.adult) || []
-  console.log(movie)
+  const movie = data?.results || []
 
   // 검색 결과
   return (
