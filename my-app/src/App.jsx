@@ -6,9 +6,16 @@ import Layout from '@components/Layout'
 import ErrorPage from '@components/ErrorPage'
 import Search from '@pages/Search'
 import Login from '@pages/Login'
-import Join from '@pages/Join'
+import Signup from './pages/Signup'
+import { useSupabaseAuth } from './supabase'
+import { useEffect } from 'react'
 
 function App() {
+  const { getUserInfo } = useSupabaseAuth()
+  useEffect(() => {
+    getUserInfo()
+  })
+
   return (
     <>
       <Routes>
@@ -17,7 +24,7 @@ function App() {
           <Route path='/detail/:id' element={<MovieDetail />}></Route>
           <Route path='/search' element={<Search />}></Route>
           <Route path='/login' element={<Login />}></Route>
-          <Route path='/join' element={<Join />}></Route>
+          <Route path='/signup' element={<Signup />}></Route>
           <Route path='*' element={<ErrorPage />}></Route>
         </Route>
       </Routes>

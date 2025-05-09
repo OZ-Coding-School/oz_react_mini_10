@@ -1,28 +1,33 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import useDebounce from '@hooks/useDebounce'
+import { useUser } from '../context/userContext'
+import { useSupabaseAuth } from '../supabase'
 
 export default function Navbar() {
   const [inputValue, setInputValue] = useState('')
   const [isOpen, setIsOpen] = useState(false)
+  const [isMypageOpen, setIsMypageOpen] = useState(false)
   const navigate = useNavigate()
-  const debouncedValue = useDebounce(inputValue, 1000)
 
+  // 검색 시 디바운스 적용
+  const debouncedValue = useDebounce(inputValue, 1000)
   useEffect(() => {
     if (debouncedValue) {
       navigate(`/search?query=${debouncedValue}`)
     }
   }, [debouncedValue])
 
-  // const inputRef = useRef(null)
-  // const handleSearch = () => {
-  //   const keyword = inputRef.current.value
-  //   navigate(`/search?query=${keyword}`)
-  // }
+  // 로그인 정보
+  const { user, setUser } = useUser()
 
-  // const handleEnter = (e) => {
-  //   if (e.key === 'Enter') handleSearch()
-  // }
+  // 로그아웃
+  const { logout } = useSupabaseAuth()
+  const handleLogout = async () => {
+    await logout()
+    setUser(null)
+    navigate('/')
+  }
 
   return (
     <>
@@ -52,12 +57,51 @@ export default function Navbar() {
               <span className='text-3xl cursor-pointer px-4 py-1'>⌕</span>
             </div>
             <div className='space-x-5 p-4 text-right sm:mr-4 sm:p-0'>
-              <Link to={'/login'}>
-                <button className=' hover:text-gray-500 transition-all'>로그인</button>
-              </Link>
-              <Link to={'/join'}>
-                <button className='hover:text-gray-500 transition-all'>회원가입</button>
-              </Link>
+              {user ? (
+                // 로그인 상태일 때
+                <div className='flex justify-end items-center relative'>
+                  <img
+                    src={
+                      user.user_metadata?.avatar_url ||
+                      'https://cdn.pixabay.com/photo/2016/03/31/19/56/avatar-1295396_1280.png'
+                    }
+                    alt='avatar'
+                    className='size-8 rounded-full border border-white cursor-pointer'
+                    onClick={() => setIsMypageOpen((prev) => !prev)}
+                  />
+                  <div
+                    className={`${
+                      isMypageOpen
+                        ? 'flex flex-col absolute whitespace-nowrap top-[2rem] right-[-1rem] z-50 bg-black px-3 py-2 rounded-b-lg'
+                        : 'hidden'
+                    } `}
+                  >
+                    <ul>
+                      <li className='border-b-[1px] pb-1'> 관심목록</li>
+                      <li className='pt-1'>
+                        <Link to={'/main'}>
+                          <button
+                            className='hover:text-gray-500 transition-all'
+                            onClick={handleLogout}
+                          >
+                            로그아웃
+                          </button>
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              ) : (
+                // 로그인 상태가 아닐 때
+                <>
+                  <Link to={'/login'}>
+                    <button className=' hover:text-gray-500 transition-all'>로그인</button>
+                  </Link>
+                  <Link to={'/signup'}>
+                    <button className='hover:text-gray-500 transition-all'>회원가입</button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>
