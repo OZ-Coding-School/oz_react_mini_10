@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Home from "./Home";
+import SearchInput from "./SearchInput";
 
-function NavBar() {
+function NavBar({ setSearchTerm }) {
 
     return(
 
@@ -16,7 +17,8 @@ function NavBar() {
             <Link to ="/login">
                 <button>로그인하기</button> 
             </Link>
-            <input/>
+            <SearchInput />
+            {/* SearchInput 컴포넌트에 setSearchTerm 전달 */}
 
            
 
