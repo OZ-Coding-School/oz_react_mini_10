@@ -1,5 +1,5 @@
 import './App.css'
-import { movieListData } from './moviedata/movieListData';
+import { movieListData } from './movieAPI/movieListData';
 import { useState } from 'react';
 import MovieCard from './component/moviecard';
 import { useEffect } from 'react';
