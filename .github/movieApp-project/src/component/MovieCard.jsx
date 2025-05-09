@@ -11,7 +11,7 @@
                     />
                     <div className="p-2">
                     <h2 className="text-base font-semibold truncate">{title}</h2>
-                    <p className="text-sm text-gray-600">평점: {voteAverage.toFixed(1)}</p>
+                    <p className="text-sm text-gray-600">평점: {voteAverage !== undefined ? voteAverage.toFixed(1) : 'N/A'}</p>
                     </div>
                 </div>
             </Link>    

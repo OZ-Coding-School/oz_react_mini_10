@@ -13,7 +13,7 @@ export const movieListData =  async () => {
     const data = await res.json()
       return data.results.filter(movie => !movie.adult)
     } catch(err){
-      console.error(err)
-      return []
+        console.error(err)
+        return [];
     }
   }

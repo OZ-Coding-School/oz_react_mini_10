@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import fetchMovieDetail from '../moviedata/movieDetailData';
+import fetchMovieDetail from '../movieAPI/movieDetailAPI';
 
 const MovieDetail = () => {
     const [movie, setMoive] = useState(null)
@@ -32,11 +32,12 @@ const MovieDetail = () => {
       
         {/* 오른쪽: 영화 정보 */}
         <div className="flex flex-col justify-start w-2/3">      
+
           {/* 제목과 평점 */}
           <div className="flex items-center justify-between mb-4">
             <h1 className="text-3xl font-bold">{movie.title}</h1>
             <span className="text-lg font-semibold">
-            ★ {movie.vote_average}
+            ★ {voteAverage !== undefined ? voteAverage.toFixed(1) : 'N/A'}
             </span>
           </div>
       
