@@ -3,6 +3,7 @@ import MovieDetail from "../components/MovieDetail";
 import { useParams } from "react-router-dom";
 
 const DetailPage = () => {
+  const api = import.meta.env.VITE_TMDB_ACCESS_TOKEN
   const { id } = useParams(); 
   const [movie, setMovie] = useState(null);
   console.log('id:', id);
@@ -14,7 +15,7 @@ const DetailPage = () => {
         method: 'GET',
         headers: {
           accept: 'application/json',
-          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzNTgxOTY4NGMwNjg2OWUxNWRjZGYzODAyZTk4Mjk5MyIsIm5iZiI6MTc0NjE3Njg4MS4yOTIsInN1YiI6IjY4MTQ4YjcxODFhODY2ZjQwMDkwN2JmMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.bGh-RqqFIgbVC038WSm695IQ8zXNw_0UHU2i7eaxSKk'
+          Authorization: `Bearer ${api}`
         }
       };
 
