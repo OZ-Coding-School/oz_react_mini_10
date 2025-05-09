@@ -22,5 +22,5 @@ export const useDebounce = (value, delay) => {
 		}
 	}, [value, delay]); // value나 delay가 변경될 때 재실행
 
-	return debounceValue;
+	return [debounceValue, setDebounceValue];
 }

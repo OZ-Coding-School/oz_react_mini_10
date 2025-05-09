@@ -4,7 +4,7 @@ import NavBar from "./NavBar";
 function Layout({query, setQuery}) {
     return (
         <>
-            <NavBar query={query} setQuery={setQuery}/>
+            <NavBar/>
             <Outlet />
         </>
     )

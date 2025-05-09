@@ -46,7 +46,8 @@ function MovieCard() {
 
 
     useEffect(() => {
-        getMovies();
+            getMovies();
+
     }, [query]);
 
     if (isLoading) {
@@ -123,7 +124,7 @@ function MovieCard() {
                                 src={`https://image.tmdb.org/t/p/w500/${el.poster_path}`}
                                 alt="" />
                         </div>
-                        <div className="sm:w-[280px] xl:w-[400px]  detail-box text-center shadow-md p-5 text-[#c6d4df]">
+                        <div className="sm:w-[400px] xl:w-[400px]  detail-box text-center shadow-md p-5 text-[#c6d4df]">
                             <h1 className='text-[1.1rem] font-bold '>{el.title}</h1>
                             <p>평점: {el.vote_average}</p>
                         </div>
