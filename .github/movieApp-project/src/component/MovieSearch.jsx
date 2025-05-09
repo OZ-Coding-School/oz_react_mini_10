@@ -6,14 +6,14 @@ import { movieSearchAPI } from "../movieAPI/movieSearchAPI";
 const movieSearch = () => {
     const [searchParams] = useSearchParams;
     const query = searchParams.get('query') || '';
-    const debounceQuery = useDebounce(query, 500)
+    const debouncedQuery = useDebounce(query, 500)
     const [results, setResults] = useState([])
 
     useEffect(() => {
         const fetchResults = async () => {
-            const data = await movieSearchAPI(debounceQuery)
+            const data = await movieSearchAPI(debouncedQuery)
             setResults(data)
         }
         if (debouncedQuery) fetchResults();
-    },[debounceQuery])
+    },[debouncedQuery])
 }
