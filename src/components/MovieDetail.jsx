@@ -44,7 +44,7 @@ function MovieDetail() {
           />
           <div className={styles.text}>
             <div className={styles.namepoint}>
-              <h3 className={styles.name}>{movies.title}</h3>
+              <h3 className={styles.name}>{movies.title.replace(/\*/g, '')}</h3>
               <p className={styles.point}>평점 : {movies.vote_average}</p>
             </div>
             <div className={styles.movietext}>{movies.overview}</div>

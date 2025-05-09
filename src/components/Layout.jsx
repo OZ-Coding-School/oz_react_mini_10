@@ -1,13 +1,16 @@
-import Header from "./Header"
-import { Outlet } from "react-router-dom"
-function Layout () {
-    return(
-        <>
-        <Header/>
-        <Outlet/>
-        </>
+import Header from "./Header";
+import { Outlet } from "react-router-dom";
+import styles from "./Layout.module.css"; 
 
-
-    )
+function Layout() {
+  return (
+    <div className={styles.layout}>
+      <Header />
+      <main className={styles.main}>
+        <Outlet />
+      </main>
+    </div>
+  );
 }
-export default Layout
+
+export default Layout;
