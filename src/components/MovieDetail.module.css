@@ -1,67 +1,105 @@
 .container {
     width: 100%;
-    height: 100%;
+    min-height: 100vh;
+    background-color: #121212;
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: "Noto Sans KR", sans-serif;
-
-}
-
-.detailBox {
-    width: 90%;
-    height: 90%;
-    background-color: white;
-    margin: 0%;
-    border: 1px solid white;
-    padding: 30px;
+    padding: 2rem;
+    box-sizing: border-box;
+  }
+  
+  .detailBox {
+    width: 100%;
+    max-width: 1200px;
+    background-color: #1e1e1e;
+    border-radius: 20px;
+    padding: 2rem;
     display: flex;
     flex-direction: row;
-    border-radius: 30px;
-}
-
-.test {
-    width: 50%;
-}
-
-.detailImg {
+    gap: 2rem;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  }
+  
+  .detailImg {
     width: 40%;
-    height: 100%;
+    height: auto;
     border-radius: 15px;
-    margin-right: 20px;
-}
-
-.namepoint {
-    height: 27%;
+    object-fit: cover;
+  }
+  
+  .test {
+    width: 60%;
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    font-size: 3rem;
-    align-items: center;
-}
-.point {
-    font-weight: 800;
-}
-.tag {
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .namepoint {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     font-size: 2rem;
-    font-weight: 800;
-
-}
-.tagtext {
-    margin-right: 10px;
-    margin-left: 5px;
-}
-.movietext {
-    height: 49%;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+  
+  .point {
     font-size: 1.5rem;
-    padding: 30px;
+    color: #ffcc00;
+    font-weight: 800;
+  }
+  
+  .tag {
     display: flex;
-    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 1.2rem;
     font-weight: 600;
-    line-height: 60px;
-
-}
+    margin-bottom: 1.5rem;
+  }
+  
+  .tagtext {
+    background-color: #333;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+  }
+  
+  .movietext {
+    font-size: 1rem;
+    line-height: 1.8;
+    background-color: #222;
+    padding: 1rem;
+    border-radius: 10px;
+    font-weight: 500;
+  }
+  
+  @media (max-width: 768px) {
+    .detailBox {
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+    }
+  
+    .detailImg {
+      width: 100%;
+      height: auto;
+    }
+  
+    .test {
+      width: 100%;
+    }
+  
+    .namepoint {
+      flex-direction: column;
+      gap: 0.5rem;
+      text-align: center;
+    }
+  
+    .movietext {
+      font-size: 0.95rem;
+    }
+  }
+  

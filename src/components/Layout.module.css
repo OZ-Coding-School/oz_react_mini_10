@@ -1,0 +1,15 @@
+.layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #121212;
+    color: white;
+    font-family: "Noto Sans KR", sans-serif;
+  }
+  
+  .main {
+    flex: 1;
+    width: 100vw; 
+    box-sizing: border-box;
+  }
+  
