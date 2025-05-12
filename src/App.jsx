@@ -10,8 +10,9 @@ function App() {
     <>
     <Routes>
       <Route path="/" element={<Layout />}>
+      {/*/는 홈페이지에 아무것도 경로가 없을 때*/}
         <Route path="/" element={<MovieCard />} />
-        <Route path="/detail" element={<MovieDetail />} />
+        <Route path="/detail/:movieId" element={<MovieDetail />} />
       </Route>
     </Routes>
 
