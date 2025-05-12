@@ -6,12 +6,12 @@ import { detail } from "../api/detail";
 
 export const MovieDetail = () => {
     const [movieDetail, setDetail] = useState([])
-
+    //setDetail은 상태 변경하는 함수.
     const {movieId} = useParams()
     //useParams는 주소창에 있는 값 가져오기
     //주소창에 있는 값은 router에서 :변수명 으로 설정정
     
-    //useEffect는 렌더링이 될 때마다 특정 작업을 실행할 수 있도록 해줌줌
+    //useEffect는 movieId가 변경이 될때마다 실행이 된다. 빈 배열일 때는 한번만 실행된다.
     useEffect(() => {
         let data = detail(movieId).then(res => setDetail(res))
     }, [movieId])

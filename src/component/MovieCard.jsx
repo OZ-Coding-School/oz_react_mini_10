@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 export const MovieCard = ({}) => {
     const navigate = useNavigate();
     popular();
-    const [movieData, setMovie] = useState([]);
+    const [movieData, setMovie] = useState([]); //useSTate 실제로 렌더링 되는 돔과 가상돔을 비교하기 위해서 사용함.
     useEffect(() => {
         //steMovie는 상태를 변경하는 함수!
         //.then 사용은 비동기 함수를 동기 함수 처럼 사용 할 때 사용함
