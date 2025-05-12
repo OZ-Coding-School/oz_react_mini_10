@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
+import useDebounce from "../hooks/useDebounce";
 
 const NavBar = () => {
   const [searchText, setSearchText] = useState("");
   const navigate = useNavigate();
   const { keyword } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const debouncedSearchText = useDebounce(searchText, 500);
 
   useEffect(() => {
     if (keyword) {
@@ -12,15 +21,17 @@ const NavBar = () => {
     }
   }, [keyword]);
 
+  useEffect(() => {
+    if (debouncedSearchText) {
+      setSearchParams({ query: debouncedSearchText });
+      navigate(`/videos/${debouncedSearchText}`);
+    } else {
+      setSearchParams({});
+    }
+  }, [debouncedSearchText, setSearchParams, navigate]);
+
   const handleSearchChange = (e) => {
     setSearchText(e.target.value);
-  };
-
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    if (searchText) {
-      navigate(`/videos/${searchText}`);
-    }
   };
 
   return (
@@ -35,7 +46,7 @@ const NavBar = () => {
             <Link to="/" className="hover:text-gray-300 transition">
               홈
             </Link>
-            <form onSubmit={handleSearchSubmit} className="flex">
+            <form onSubmit={(e) => e.preventDefault()} className="flex">
               <input
                 type="text"
                 value={searchText}
@@ -43,12 +54,6 @@ const NavBar = () => {
                 placeholder="영화 검색..."
                 className="bg-white rounded-l-sm text-black px-3 py-1 focus:outline-none"
               />
-              <button
-                type="submit"
-                className="bg-gray-800 hover:bg-gray-700 px-3 py-1 rounded-r-sm transition"
-              >
-                검색
-              </button>
             </form>
           </div>
         </div>
